@@ -253,17 +253,18 @@ S.append(f'''
   </div>
 </section>''')
 
-# 8. Offer ---------------------------------------------------------------
+# 8. Offer (calm, elegant) -----------------------------------------------
 S.append(f'''
 <section {scene_attr("s8")}>
-  <div class="offer">
-    <div class="ribbon fx-pop" style="{d("s8", 0.0)}">عرض خاص لفترة محدودة</div>
-    <div class="old-price fx-up" style="{d("s8", 3.4)}"><span dir="ltr">$250</span><i class="strike" style="{d("s8", 4.0)}"></i></div>
-    <div class="flash" style="{d("s8", 1.5)}"></div>
-    <div class="new-price fx-slam" style="{d("s8", 1.55)}"><span class="cur">$</span><span class="count" data-from="250" data-to="125" data-t0="{at("s8", 1.55)}" data-dur="1.1">125</span></div>
-    <div class="save fx-pop" style="{d("s8", 2.6)}">وفّر <span dir="ltr">50%</span></div>
-    <div class="incl fx-up" style="{d("s8", 3.0)}">شامل باقة الأسئلة المحاكية للامتحان على منصة Easy PM</div>
-    <div class="first5 fx-pop pulse" style="{d("s8", 5.6)}">{icon("gift", 54)}<span>اسأل عن <b>الخصم الخاص</b> لأول 5 مشتركين</span></div>
+  <div class="offer calm">
+    <div class="offer-tag fx-up" style="{d("s8", 0.0)}">عرض لفترة محدودة</div>
+    <div class="price-card fx-up" style="{d("s8", 2.0)}">
+      <div class="pc-label">رسوم الكورس</div>
+      <div class="new-price"><span class="cur">$</span><span class="amt">125</span></div>
+      <div class="old-price fx-up" style="{d("s8", 3.3)}">بدلًا من <span dir="ltr">$250<i class="strike" style="{d("s8", 3.9)}"></i></span></div>
+    </div>
+    <div class="incl fx-up" style="{d("s8", 5.3)}">{icon("check", 40)}<span>شامل باقة الأسئلة المحاكية للامتحان على منصة Easy PM</span></div>
+    <div class="first10 fx-up" style="{d("s8", 7.7)}">{icon("gift", 48)}<span>خصم خاص لأول <b>10 مشتركين</b></span></div>
   </div>
 </section>''')
 
@@ -273,7 +274,7 @@ S.append(f'''
   <div class="cta">
     {logo_card("fx-pop lg", d("s9", -0.3))}
     <div class="btn fx-pop" style="{d("s9", 0.0)}">احجز مكانك الآن</div>
-    <div class="url fx-up" style="{d("s9", 0.8)}" dir="ltr">easypmp.org</div>
+    <div class="url fx-up" style="{d("s9", 0.8)}" dir="ltr">Easypm.org</div>
     <div class="url-sub fx-up" style="{d("s9", 1.2)}">أو ابعتلنا رسالة لتفاصيل الاشتراك</div>
     <div class="recap fx-up" style="{d("s9", 1.9)}">
       <span>{icon("calendar", 36)} يبدأ 9 يناير 2027</span><span class="sep"></span><span>{icon("star", 36)} <b dir="ltr">$125</b> بدلًا من <s dir="ltr">$250</s></span>
@@ -291,10 +292,13 @@ S.append(f'''
 BROLL = []
 bdir = os.path.join(BUILD, "broll")
 plan = [
-    ("city",   0.75,                scene["s2"][1],  0.50, 0.55),
-    ("globe",  scene["s3"][0],      scene["s3"][1],  0.62, 0.60),
-    ("leaves", scene["s4"][0],      scene["s7"][1],  0.28, 0.40),
-    ("hands",  scene["s8"][0],      TOTAL + 1,       0.45, 0.50),
+    ("city",   0.75,           scene["s1"][1] + 0.4, 0.50, 0.90),
+    ("site",   scene["s2"][0], scene["s2"][1] + 0.4, 0.42, 0.50),
+    ("globe",  scene["s3"][0], scene["s3"][1] + 0.4, 0.62, 0.60),
+    ("tower",  scene["s4"][0], scene["s4"][1] + 0.4, 0.34, 0.40),
+    ("solar",  scene["s5"][0], scene["s6"][1] + 0.4, 0.30, 0.35),
+    ("leaves", scene["s7"][0], scene["s7"][1] + 0.4, 0.30, 0.45),
+    ("hands",  scene["s8"][0], TOTAL + 1,            0.42, 0.45),
 ]
 for clip, s0, s1, op, sp in plan:
     p = os.path.join(bdir, clip)

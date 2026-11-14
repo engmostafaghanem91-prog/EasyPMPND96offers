@@ -261,3 +261,18 @@ body{font-family:Mont,Cairo,sans-serif;color:var(--ink);-webkit-font-smoothing:a
 .av-clip{position:absolute;left:26px;right:26px;bottom:26px;height:150%;border-radius:0 0 184px 184px;overflow:hidden}
 .av-photo{position:absolute;bottom:-4px;left:50%;width:128%;transform:translateX(-50%);filter:drop-shadow(0 10px 24px rgba(0,0,0,.45))}
 .cell svg.zoom{margin-bottom:6px}
+
+/* ---------- 8 offer (calm) ---------- */
+.offer.calm .offer-tag{font-family:Cairo,Mont,sans-serif;font-weight:700;font-size:40px;color:var(--gold2);padding:12px 44px;border-radius:50px;border:1.5px solid rgba(233,196,106,.55);background:rgba(233,196,106,.08)}
+.price-card{margin-top:56px;width:760px;padding:40px 30px 46px;border-radius:44px;background:rgba(255,255,255,.06);border:1.5px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.35);display:flex;flex-direction:column;align-items:center}
+.pc-label{font-family:Cairo,Mont,sans-serif;font-weight:600;font-size:34px;color:var(--mute)}
+.offer.calm .new-price{margin-top:4px;background:linear-gradient(180deg,#fff,#d9f5e6);-webkit-background-clip:text;background-clip:text;color:transparent;filter:none}
+.offer.calm .new-price .cur{font-size:110px;margin-top:34px}
+.offer.calm .new-price .amt{font-size:250px;letter-spacing:-6px}
+.offer.calm .old-price{margin-top:6px;font-family:Cairo,Mont,sans-serif;font-weight:600;font-size:46px;color:var(--mute)}
+.offer.calm .old-price span{font-family:Mont,Cairo,sans-serif;position:relative}
+.offer.calm .strike{left:-6px;right:-6px;width:auto;height:5px;background:rgba(239,68,68,.85);top:52%}
+.offer.calm .incl{display:flex;align-items:center;gap:16px;margin-top:44px;font-size:36px;color:var(--ink)}
+.offer.calm .incl svg{color:var(--em2)}
+.first10{display:flex;align-items:center;gap:20px;margin-top:40px;padding:24px 40px;border-radius:30px;font-family:Cairo,Mont,sans-serif;font-weight:700;font-size:40px;background:rgba(233,196,106,.07);border:1.5px solid rgba(233,196,106,.45)}
+.first10 svg{color:var(--gold2)} .first10 b{color:var(--gold2)}

@@ -182,17 +182,14 @@ add(sfx, ding(1046.5), 0.25, gain=0.07)
 # CSPP reveal
 add(sfx, riser(2.2), GROOVE_IN - 2.2, gain=0.10)
 add(sfx, impact(), GROOVE_IN - 0.03, gain=0.30)
-# price slam
-price_t = vo["s8"] + 1.55
-add(sfx, riser(1.4), price_t - 1.4, gain=0.09)
-add(sfx, impact(), price_t - 0.03, gain=0.26)
-add(sfx, ding(1567.98), price_t + 1.1, gain=0.07)
+# price reveal (kept subtle)
+add(sfx, ding(1318.5), vo["s8"] + 2.05, gain=0.035)
 # ticks for list items (module highlights / benefits)
 for off in (1.45, 3.7, 5.95, 9.25, 12.45):
     add(sfx, tick(), vo["s4"] + off - 0.05, gain=0.05)
 for off in (4.0, 6.2, 8.6, 10.8, 12.7):
     add(sfx, tick(), vo["s6"] + off + 0.1, gain=0.05)
-add(sfx, ding(1318.5), vo["s8"] + 5.7, gain=0.05)   # first-5 discount
+add(sfx, ding(1567.98), vo["s8"] + 7.75, gain=0.03)  # first-10 discount
 add(sfx, ding(1046.5), vo["s9"] + 0.15, gain=0.05)  # CTA button
 
 # --------------------------------------------------------------- voice + ducking
