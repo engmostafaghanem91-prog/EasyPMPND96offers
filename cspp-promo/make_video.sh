@@ -3,6 +3,7 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 bash prep_audio.sh
+bash prep_broll.sh
 python3 build.py
 rm -rf build/frames
 WORKERS=${WORKERS:-4} node render.js frames

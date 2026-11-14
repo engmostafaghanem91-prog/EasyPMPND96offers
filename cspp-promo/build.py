@@ -73,9 +73,17 @@ def icon(name, size=64, stroke=None):
     return (f'<svg class="ic" width="{size}" height="{size}" viewBox="0 0 24 24" fill="none" '
             f'stroke="{s}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">{P}</svg>')
 
+IMG = "../assets/img/"
+
 def logo(cls=""):
-    return (f'<div class="logo {cls}"><span class="logo-mark">{icon("leaf", 40)}</span>'
+    return (f'<div class="logo {cls}"><span class="logo-mark"><img src="{IMG}logo_icon_white.png"></span>'
             f'<span class="logo-txt"><b>Easy</b><i>PM</i></span></div>')
+
+def logo_card(cls="", style=""):
+    return f'<div class="logo-card {cls}" style="{style}"><img src="{IMG}logo_full_white.png"></div>'
+
+ZOOM = ('<svg class="ic zoom" width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#2D8CFF"/>'
+        '<rect x="13" y="22" width="25" height="20" rx="5" fill="#fff"/><path d="M41 29l10-6.5v19L41 35z" fill="#fff"/></svg>')
 
 def scene_attr(k):
     s, e = scene[k]
@@ -89,7 +97,7 @@ S.append(f'''
 <section class="scene" id="s0" data-s="0" data-e="1.6" style="--s:0s;--e:1.15s">
   <div class="sting">
     <div class="sting-ring fx-ring" style="--d:0.05s"></div>
-    <div class="fx-pop" style="--d:0.15s">{logo("xl")}</div>
+    {logo_card("fx-pop xl", "--d:0.12s")}
     <div class="sting-line fx-wipe" style="--d:0.45s"></div>
   </div>
 </section>''')
@@ -195,7 +203,7 @@ S.append(f'''
     <div class="grid">
       <div class="cell fx-up" style="{d("s5", 3.4)}">{icon("live", 56)}<b><span class="num">6</span> محاضرات</b><small>تفاعلية مباشرة</small></div>
       <div class="cell fx-up" style="{d("s5", 4.2)}">{icon("calendar", 56)}<b>~ 3 أسابيع</b><small>محاضرتان أسبوعيًا</small></div>
-      <div class="cell fx-up" style="{d("s5", 5.2)}">{icon("video", 56)}<b>أونلاين بالكامل</b><small>عبر Zoom Meeting</small></div>
+      <div class="cell fx-up" style="{d("s5", 5.2)}">{ZOOM}<b>أونلاين بالكامل</b><small>عبر Zoom Meeting</small></div>
       <div class="cell fx-up" style="{d("s5", 6.6)}">{icon("star", 56)}<b>السبت والثلاثاء</b><small>من كل أسبوع</small></div>
     </div>
     <div class="time-bar fx-up" style="{d("s5", 7.9)}">{icon("clock", 54)}<span><b dir="ltr">7:00 – 10:00</b> مساءً</span><small>بتوقيت القاهرة</small></div>
@@ -237,7 +245,7 @@ S.append(f'''
   <div class="trainer">
     <div class="sec-tag fx-up" style="{d("s7", -0.2)}">المدرب</div>
     <div class="avatar fx-pop" style="{d("s7", 0.0)}">
-      <div class="av-ring"></div><div class="av-in">{icon("people", 1)}<span>م.غ</span></div>
+      <div class="av-ring"></div><div class="av-in"></div><div class="av-clip"><img class="av-photo" src="{IMG}trainer_cutout.png"></div>
     </div>
     <h2 class="t-name fx-up" style="{d("s7", 0.5)}">م/ محمد غانم</h2>
     <div class="t-role fx-up" style="{d("s7", 2.4)}">{icon("shield", 40)} محاضر معتمد (ATP) من معهد إدارة المشروعات PMI</div>
@@ -263,7 +271,7 @@ S.append(f'''
 S.append(f'''
 <section {scene_attr("s9")}>
   <div class="cta">
-    {logo("lg fx-pop") .replace('class="logo lg fx-pop"', f'class="logo lg fx-pop" style="{d("s9", -0.3)}"')}
+    {logo_card("fx-pop lg", d("s9", -0.3))}
     <div class="btn fx-pop" style="{d("s9", 0.0)}">احجز مكانك الآن</div>
     <div class="url fx-up" style="{d("s9", 0.8)}" dir="ltr">easypmp.org</div>
     <div class="url-sub fx-up" style="{d("s9", 1.2)}">أو ابعتلنا رسالة لتفاصيل الاشتراك</div>
@@ -278,6 +286,26 @@ S.append(f'''
   </div>
 </section>''')
 
+# ---------------------------------------------------------------- b-roll layers
+# (clip, start, end, opacity, speed): frames pre-extracted to build/broll/<clip>/f_XXXX.jpg
+BROLL = []
+bdir = os.path.join(BUILD, "broll")
+plan = [
+    ("city",   0.75,                scene["s2"][1],  0.50, 0.55),
+    ("globe",  scene["s3"][0],      scene["s3"][1],  0.62, 0.60),
+    ("leaves", scene["s4"][0],      scene["s7"][1],  0.28, 0.40),
+    ("hands",  scene["s8"][0],      TOTAL + 1,       0.45, 0.50),
+]
+for clip, s0, s1, op, sp in plan:
+    p = os.path.join(bdir, clip)
+    if os.path.isdir(p):
+        n = len([f for f in os.listdir(p) if f.endswith(".jpg")])
+        BROLL.append({"clip": clip, "s": round(s0, 3), "e": round(s1, 3), "op": op, "speed": sp, "n": n})
+timeline["broll"] = BROLL
+with open(os.path.join(BUILD, "timeline.json"), "w") as fh:
+    json.dump(timeline, fh, indent=1)
+BGV = "".join(f'<img id="bv_{b["clip"]}" alt="">' for b in BROLL)
+
 # ---------------------------------------------------------------- page
 CSS = open(os.path.join(HERE, "style.css"), encoding="utf-8").read()
 JS = open(os.path.join(HERE, "runtime.js"), encoding="utf-8").read()
@@ -288,6 +316,7 @@ html = f'''<!doctype html>
 <body>
 <div id="stage">
   <div class="bg"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="grid-lines"></div></div>
+  <div class="bgvid">{BGV}</div>
   <canvas id="fx" width="1080" height="1920"></canvas>
   <header class="topbar fx-down" style="--d:1.0s">{logo("sm")}<span class="tb-pill">PMI ATP · CSPP 2027</span></header>
   {"".join(S)}

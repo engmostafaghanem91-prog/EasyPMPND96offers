@@ -43,7 +43,23 @@
 
   const easeOut = p => 1 - Math.pow(1 - p, 3);
 
-  window.setTime = (t) => {
+  const BR = (TL.broll || []).map(b => ({ ...b, el: document.getElementById('bv_' + b.clip) }));
+  const pingpong = (i, n) => { const m = 2 * (n - 1); i = i % m; return i < n ? i : m - i; };
+  async function broll(t) {
+    const waits = [];
+    for (const b of BR) {
+      if (t < b.s - 0.05 || t > b.e + 0.05) { b.el.style.opacity = 0; continue; }
+      const fin = Math.min(1, (t - b.s) / 0.9), fout = Math.min(1, (b.e - t) / 0.9);
+      b.el.style.opacity = (Math.max(0, Math.min(fin, fout)) * b.op).toFixed(3);
+      const idx = pingpong(Math.floor((t - b.s) * 30 * b.speed), b.n) + 1;
+      const src = `broll/${b.clip}/f_${String(idx).padStart(4, '0')}.jpg`;
+      if (b.el.getAttribute('src') !== src) { b.el.setAttribute('src', src); waits.push(b.el.decode().catch(() => {})); }
+    }
+    await Promise.all(waits);
+  }
+
+  window.setTime = async (t) => {
+    await broll(t);
     for (const sc of scenes) sc.el.style.visibility = (t >= sc.s - 0.05 && t <= sc.e + 0.05) ? 'visible' : 'hidden';
     for (const a of document.getAnimations()) { a.pause(); a.currentTime = t * 1000; }
     for (const c of counters) {
@@ -55,5 +71,5 @@
     particles(t);
   };
 
-  window.ready = document.fonts.ready.then(() => { window.setTime(0); return true; });
+  window.ready = document.fonts.ready.then(() => window.setTime(0)).then(() => true);
 })();

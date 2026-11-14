@@ -10,23 +10,23 @@
 @font-face{font-family:Mont,Cairo,sans-serif;font-weight:900;src:url(../assets/fonts/montserrat-latin-900-normal.woff2) format("woff2")}
 
 :root{
-  --bg0:#02130f; --bg1:#05271f; --em:#10b981; --em2:#34d399; --lime:#a3e635; --teal:#2dd4bf;
+  --bg0:#020d16; --bg1:#06283a; --brand:#1d6e86; --gold2:#e9c46a; --em:#10b981; --em2:#34d399; --lime:#a3e635; --teal:#2dd4bf;
   --gold:#fbbf24; --ink:#f2fbf7; --mute:#9cc2b6; --card:rgba(255,255,255,.055); --line:rgba(167,243,208,.18);
   --ease:cubic-bezier(.16,1,.3,1); --back:cubic-bezier(.34,1.56,.64,1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
 body{font-family:Mont,Cairo,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
-#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:radial-gradient(120% 80% at 50% 0%,#0a3a2e 0%,var(--bg1) 38%,var(--bg0) 100%)}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:radial-gradient(120% 80% at 50% 0%,#0d4552 0%,var(--bg1) 40%,var(--bg0) 100%)}
 .ic{display:inline-block;flex:none}
 .grad{background:linear-gradient(90deg,var(--lime),var(--em2) 45%,var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent}
 
 /* ---------- background ---------- */
 .bg{position:absolute;inset:0;overflow:hidden}
 .blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55}
-.b1{width:760px;height:760px;background:#0f766e;top:-180px;right:-260px;animation:drift1 22s ease-in-out infinite alternate}
-.b2{width:680px;height:680px;background:#15803d;bottom:-160px;left:-240px;animation:drift2 26s ease-in-out infinite alternate}
-.b3{width:520px;height:520px;background:#65a30d;top:46%;left:30%;opacity:.22;animation:drift3 18s ease-in-out infinite alternate}
+.b1{width:760px;height:760px;background:#155e75;top:-180px;right:-260px;animation:drift1 22s ease-in-out infinite alternate}
+.b2{width:680px;height:680px;background:#0f766e;bottom:-160px;left:-240px;animation:drift2 26s ease-in-out infinite alternate}
+.b3{width:520px;height:520px;background:#a16207;top:46%;left:30%;opacity:.16;animation:drift3 18s ease-in-out infinite alternate}
 @keyframes drift1{to{transform:translate(-220px,260px) scale(1.15)}}
 @keyframes drift2{to{transform:translate(260px,-300px) scale(1.2)}}
 @keyframes drift3{to{transform:translate(-200px,-260px) scale(.85)}}
@@ -40,11 +40,11 @@ body{font-family:Mont,Cairo,sans-serif;color:var(--ink);-webkit-font-smoothing:a
 
 /* ---------- logo / top bar ---------- */
 .logo{display:inline-flex;align-items:center;gap:14px;direction:ltr}
-.logo-mark{width:62px;height:62px;border-radius:18px;display:grid;place-items:center;color:#032019;
-  background:linear-gradient(135deg,var(--lime),var(--em));box-shadow:0 10px 30px rgba(16,185,129,.45)}
+.logo-mark{width:62px;height:62px;border-radius:18px;display:grid;place-items:center;overflow:hidden;background:#fff;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.logo-mark img{width:88%;height:88%;object-fit:contain}
 .logo-txt{font-family:Mont,Cairo,sans-serif;font-weight:800;font-size:44px;letter-spacing:-.5px}
-.logo-txt b{color:#fff;font-weight:800}.logo-txt i{font-style:normal;color:var(--em2);margin-left:6px}
-.logo.sm .logo-mark{width:52px;height:52px;border-radius:15px}.logo.sm .logo-mark svg{width:32px;height:32px}.logo.sm .logo-txt{font-size:36px}
+.logo-txt b{color:#fff;font-weight:800}.logo-txt i{font-style:normal;margin-left:6px;background:linear-gradient(180deg,#f6dc8c,#c9a43a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.logo.sm .logo-mark{width:56px;height:56px;border-radius:15px}.logo.sm .logo-txt{font-size:36px}
 .logo.lg .logo-mark{width:96px;height:96px;border-radius:26px}.logo.lg .logo-mark svg{width:60px;height:60px}.logo.lg .logo-txt{font-size:72px}
 .logo.xl .logo-mark{width:130px;height:130px;border-radius:34px}.logo.xl .logo-mark svg{width:82px;height:82px}.logo.xl .logo-txt{font-size:104px}
 .topbar{position:absolute;top:70px;left:64px;right:64px;display:flex;align-items:center;justify-content:space-between;direction:ltr;z-index:5}
@@ -243,3 +243,21 @@ body{font-family:Mont,Cairo,sans-serif;color:var(--ink);-webkit-font-smoothing:a
 .tag-en{margin-top:64px;font-family:Mont,Cairo,sans-serif;font-weight:600;font-size:38px;line-height:1.5;direction:ltr;color:#dff7ee}
 .tag-en b{font-weight:800}
 .hash{margin-top:46px;font-family:Mont,Cairo,sans-serif;font-weight:600;font-size:24px;color:var(--mute);max-width:900px;line-height:1.6}
+
+/* ---------- official logo card ---------- */
+.logo-card{background:#fff;border-radius:44px;padding:26px 34px;box-shadow:0 30px 90px rgba(0,0,0,.5),0 0 0 8px rgba(255,255,255,.08)}
+.logo-card img{display:block;width:100%;height:auto}
+.logo-card.xl{width:560px;position:relative;z-index:2}
+.logo-card.lg{width:300px;border-radius:34px;padding:18px 24px}
+
+/* ---------- b-roll ---------- */
+.bgvid{position:absolute;inset:0;overflow:hidden}
+.bgvid img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
+.bgvid:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,13,22,.55) 0%,rgba(2,13,22,.25) 35%,rgba(2,13,22,.35) 65%,rgba(2,13,22,.85) 100%)}
+
+/* ---------- trainer photo ---------- */
+.avatar{width:420px;height:420px;margin:130px 0 34px}
+.av-in{background:radial-gradient(circle at 50% 35%,#1d6e86,#06283a 75%)}
+.av-clip{position:absolute;left:26px;right:26px;bottom:26px;height:150%;border-radius:0 0 184px 184px;overflow:hidden}
+.av-photo{position:absolute;bottom:-4px;left:50%;width:128%;transform:translateX(-50%);filter:drop-shadow(0 10px 24px rgba(0,0,0,.45))}
+.cell svg.zoom{margin-bottom:6px}
