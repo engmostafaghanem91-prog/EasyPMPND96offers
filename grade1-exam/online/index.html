@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grade 1 English – First Term Online Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1f2a44; --muted:#5d6b85; --blue:#2f6fd6; --blue-d:#2459ad; --soft:#eef4ff;
+  --line:#c9d6ea; --accent:#f2a516; --green:#1f9d6b; --red:#d64545; --bg:#f6f9ff;
+  --emoji:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:"Andika",system-ui,sans-serif;color:var(--ink);background:var(--bg);font-size:20px;line-height:1.4;min-height:100vh}
+button{font-family:inherit;color:inherit;cursor:pointer}
+.wrap{max-width:860px;margin:0 auto;padding:14px 14px 40px}
+.emo{font-family:var(--emoji);line-height:1}
+
+/* top bar */
+.bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.bar .title{font-weight:700;color:var(--blue);font-size:18px;flex:1;min-width:0}
+.pill{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:5px 12px;font-size:15px;display:flex;align-items:center;gap:6px}
+.pill.on{border-color:var(--green);background:#e9f8f1}
+.progress{height:12px;background:#e2e9f5;border-radius:99px;overflow:hidden;margin:4px 0 14px}
+.progress>div{height:100%;background:linear-gradient(90deg,var(--blue),#5aa0ff);border-radius:99px;transition:width .3s}
+
+/* card */
+.card{background:#fff;border:2px solid var(--line);border-radius:22px;padding:18px 20px 22px;box-shadow:0 4px 0 #dfe7f4}
+.sec{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.sec .badge{background:var(--soft);color:var(--blue-d);border:1.5px solid var(--blue);border-radius:999px;padding:3px 12px;font-size:15px;font-weight:700}
+.sec .count{color:var(--muted);font-size:15px;margin-left:auto}
+.prompt{display:flex;align-items:center;gap:12px;font-size:25px;font-weight:700;margin:6px 0 14px}
+.spk{flex:none;width:48px;height:48px;border-radius:50%;border:2px solid var(--blue);background:var(--soft);font-size:22px;display:inline-flex;align-items:center;justify-content:center;font-family:var(--emoji)}
+.spk:hover{background:#dce8ff}
+.spk.sm{width:36px;height:36px;font-size:16px;border-width:1.5px}
+.speaking{animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(47,111,214,.5)}50%{box-shadow:0 0 0 9px rgba(47,111,214,0)}}
+
+.stage{text-align:center;margin:6px 0 16px}
+.big{font-size:84px;font-weight:700;line-height:1.1}
+.pic{font-size:96px}
+.word{font-size:56px;font-weight:700;letter-spacing:6px}
+.word .gap{display:inline-block;width:52px;border-bottom:5px solid var(--ink);margin:0 4px}
+.sentence{font-size:32px;font-weight:700}
+.sentence .gap{display:inline-block;min-width:90px;border-bottom:4px solid var(--ink);margin:0 6px}
+.listen-btn{font-size:24px;font-weight:700;border:3px solid var(--blue);background:var(--soft);border-radius:20px;padding:16px 30px;display:inline-flex;gap:12px;align-items:center}
+.listen-btn .emo{font-size:46px}
+
+/* choices */
+.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px}
+.choice{position:relative;border:2.5px solid var(--line);background:#fff;border-radius:18px;padding:16px 10px 14px;font-size:30px;font-weight:700;min-height:96px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:transform .08s}
+.choice:active{transform:scale(.97)}
+.choice:hover{border-color:#8fb1ea}
+.choice.sel{border-color:var(--blue);background:#e3eeff;box-shadow:0 0 0 3px rgba(47,111,214,.25)}
+.choice .emo{font-size:50px}
+.choice .lbl{font-size:15px;color:var(--muted);font-weight:400}
+.choice.long{font-size:24px;text-align:center}
+.choice .spk{position:absolute;top:5px;right:5px;width:30px;height:30px;font-size:14px}
+.choices.wide{grid-template-columns:1fr}
+.choices.wide .choice{flex-direction:row;justify-content:flex-start;padding-left:22px;padding-right:56px;min-height:72px;text-align:left}
+.choices.wide .choice .spk{top:50%;transform:translateY(-50%)}
+
+/* nouns multi */
+.chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.chips .choice{min-height:84px;font-size:26px;padding-top:28px}
+.hint{color:var(--muted);font-size:17px;margin:-4px 0 12px}
+
+/* story */
+.story{background:#fffaf0;border:2px solid var(--accent);border-radius:16px;padding:12px 16px;margin-bottom:14px;font-size:22px;line-height:1.6}
+.story .hd{display:flex;align-items:center;gap:10px;font-weight:700;margin-bottom:4px}
+
+/* order */
+.slots{min-height:78px;border:2.5px dashed var(--blue);border-radius:16px;padding:10px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;margin-bottom:14px;background:#f8fbff}
+.slots .ph{color:var(--muted);font-size:17px}
+.tok{border:2px solid var(--blue);background:var(--soft);border-radius:12px;padding:8px 18px;font-size:28px;font-weight:700}
+.tok.used{visibility:hidden}
+.pool{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.period{font-size:34px;font-weight:700}
+
+/* nav */
+.nav{display:flex;gap:12px;margin-top:18px}
+.btn{border:none;border-radius:16px;padding:14px 24px;font-size:21px;font-weight:700;background:var(--blue);color:#fff;box-shadow:0 4px 0 var(--blue-d)}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--blue-d)}
+.btn.ghost{background:#fff;color:var(--blue);border:2px solid var(--blue);box-shadow:none}
+.btn.green{background:var(--green);box-shadow:0 4px 0 #157551}
+.btn.orange{background:var(--accent);box-shadow:0 4px 0 #c4850d}
+.btn:disabled{opacity:.4;cursor:default}
+.grow{flex:1}
+
+/* start */
+.hero{text-align:center}
+.hero h1{color:var(--blue);margin:6px 0 2px;font-size:34px}
+.hero .sub{color:var(--muted);margin-bottom:14px}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.form label{font-size:16px;color:var(--muted);display:flex;flex-direction:column;gap:4px;text-align:left}
+.form input{font-family:inherit;font-size:21px;border:2px solid var(--line);border-radius:12px;padding:10px 12px}
+.form input:focus{outline:none;border-color:var(--blue)}
+.parts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;text-align:left;font-size:17px;margin:12px 0}
+.parts div{background:var(--soft);border-radius:12px;padding:8px 12px}
+.ar{direction:rtl;font-family:system-ui,sans-serif;font-size:16px;color:var(--muted);text-align:center;margin-top:8px}
+.notice{background:#fff4e0;border:1.5px solid var(--accent);border-radius:12px;padding:8px 12px;font-size:16px;margin:10px 0}
+
+/* review + results */
+.grid-nums{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.grid-nums button{width:46px;height:46px;border-radius:12px;border:2px solid var(--line);background:#fff;font-weight:700;font-size:17px}
+.grid-nums button.done{background:#e3eeff;border-color:var(--blue)}
+.grid-nums button.miss{background:#fff1f1;border-color:var(--red);color:var(--red)}
+.score-big{font-size:70px;font-weight:700;color:var(--blue);line-height:1}
+.stars{font-family:var(--emoji);font-size:46px;letter-spacing:4px;margin:6px 0}
+table{width:100%;border-collapse:collapse;font-size:17px;margin:10px 0}
+td,th{border:1px solid var(--line);padding:7px 10px;text-align:left}
+th{background:var(--soft)}
+.rv{border:1.5px solid var(--line);border-radius:12px;padding:8px 12px;margin-bottom:8px;font-size:17px}
+.rv.ok{border-color:#9bd8bf;background:#f2fbf7}
+.rv.bad{border-color:#f0b2b2;background:#fff6f6}
+.rv b.c{color:var(--green)} .rv b.w{color:var(--red)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:12px;font-size:17px;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.show{opacity:1}
+.modal{position:fixed;inset:0;background:rgba(20,30,50,.45);display:flex;align-items:center;justify-content:center;padding:16px}
+.modal .card{max-width:440px;text-align:center}
+
+@media (max-width:560px){
+  body{font-size:18px}
+  .prompt{font-size:21px}
+  .big{font-size:70px}.pic{font-size:80px}.word{font-size:44px}.sentence{font-size:25px}
+  .choices{grid-template-columns:repeat(auto-fit,minmax(90px,1fr))}
+  .choice{font-size:25px}
+  .form{grid-template-columns:1fr}
+  .tok{font-size:23px;padding:6px 14px}
+  .hide-sm{display:none}
+  .pill{font-size:13px;padding:4px 9px}
+}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   EXAM CONTENT  (Grade 1 – English Language Arts – First Term)
+   ============================================================ */
+const SECTIONS = [
+  {id:"letters", title:"Capital & Small Letters", icon:"🔤"},
+  {id:"begin",   title:"Beginning Sounds",       icon:"🅰️"},
+  {id:"vowels",  title:"Short Vowels",           icon:"🔡"},
+  {id:"listen",  title:"Listen and Choose",      icon:"👂"},
+  {id:"rhyme",   title:"Rhyming Words",          icon:"🎵"},
+  {id:"sight",   title:"Sight Words",            icon:"👀"},
+  {id:"punct",   title:"Periods & Question Marks", icon:"❓"},
+  {id:"nouns",   title:"Nouns",                  icon:"🏷️"},
+  {id:"reading", title:"Reading",                icon:"📖"},
+  {id:"order",   title:"Build the Sentence",     icon:"🧩"},
+  {id:"write",   title:"Writing Rules",          icon:"✏️"},
+];
+
+const STORY = {
+  title: "Sam and Max",
+  pic: "🐕",
+  text: "Sam has a pet dog. His name is Max. Max is big and brown. Max likes to play with a red ball. On Friday, Sam and Max go to the park. They run and jump. Then they go home and rest."
+};
+
+const L = (ch) => ({t: ch, say: "letter " + ch.toUpperCase()});
+const W = (t, e) => ({t, e, say: t});
+const VOW = ["a","e","i","o","u"].map(L);
+
+const Q = [
+  // 1. Letters (5)
+  ...[["A",["a","o","e"],0],["B",["d","b","p"],1],["G",["q","g","j"],1],["R",["n","h","r"],2],["E",["c","a","e"],2]]
+    .map(([cap,ch,ans]) => ({sec:"letters", type:"mcq", prompt:"Tap the small letter for:", big:cap,
+      say:`Find the small letter for capital ${cap}.`, choices:ch.map(L), answer:ans})),
+
+  // 2. Beginning sounds (6)
+  ...[["cat","🐱",["m","c","s"],1],["dog","🐶",["b","p","d"],2],["sun","🌞",["s","t","f"],0],
+      ["fish","🐟",["v","h","f"],2],["ball","⚽",["d","b","p"],1],["moon","🌙",["n","w","m"],2]]
+    .map(([w,e,ch,ans]) => ({sec:"begin", type:"mcq", prompt:"What is the first sound?", pic:e,
+      say:`This is a ${w}. What is the first sound in ${w}?`, choices:ch.map(L), answer:ans, key:w})),
+
+  // 3. Short vowels (5)
+  ...[["hat","🎩","h","t",0],["bed","🛏️","b","d",1],["pig","🐷","p","g",2],["box","📦","b","x",3],["bug","🐛","b","g",4]]
+    .map(([w,e,a,b,ans]) => ({sec:"vowels", type:"mcq", prompt:"Which vowel is missing?", pic:e, word:[a,b],
+      say:`This is a ${w}. Which short vowel is missing in the word ${w}?`, choices:VOW, answer:ans, key:w})),
+
+  // 4. Listen and choose (5)
+  ...[["cap",[W("cat","🐱"),W("cap","🧢"),W("can","🥫")]],
+      ["bag",[W("bat","🦇"),W("bed","🛏️"),W("bag","👜")]],
+      ["pen",[W("pen","🖊️"),W("pig","🐷"),W("pan","🍳")]],
+      ["sock",[W("sun","🌞"),W("sock","🧦"),W("six","6️⃣")]],
+      ["hen",[W("hat","🎩"),W("hand","✋"),W("hen","🐔")]]]
+    .map(([target,ch]) => ({sec:"listen", type:"listen", prompt:"Listen. Tap the word you hear.", target,
+      say:`Listen carefully. ${target}. ... ${target}.`, choices:ch, answer:ch.findIndex(c=>c.t===target)})),
+
+  // 5. Rhyming (5)
+  ...[["cat","🐱",[W("dog","🐶"),W("hat","🎩"),W("sun","🌞")],1],
+      ["pig","🐷",[W("pen","🖊️"),W("cup","🥤"),W("dig","⛏️")],2],
+      ["king","🤴",[W("ring","💍"),W("kite","🪁"),W("bus","🚌")],0],
+      ["bed","🛏️",[W("box","📦"),W("red","🟥"),W("hen","🐔")],1],
+      ["car","🚗",[W("cow","🐄"),W("bus","🚌"),W("star","⭐")],2]]
+    .map(([w,e,ch,ans]) => ({sec:"rhyme", type:"mcq", prompt:"Which word rhymes with", big:w, pic:e,
+      say:`Which word rhymes with ${w}?`, choices:ch, answer:ans})),
+
+  // 6. Sight words (5)
+  ...[[["I","a bird in the tree."],"🐦",["see","can","my"],0],
+      [["I","jump high."],"🤸",["is","can","the"],1],
+      [["This","a red apple."],"🍎",["see","we","is"],2],
+      [["I love","mom."],"👩",["my","can","is"],0],
+      [["","like to play."],"🧒",["The","We","Is"],1]]
+    .map(([[a,b],e,ch,ans]) => ({sec:"sight", type:"mcq", prompt:"Choose the missing word.", pic:e, sentence:[a,b],
+      say:`${a} blank ${b} Which word is missing?`, choices:ch.map(t=>({t,say:t})), answer:ans})),
+
+  // 7. Punctuation (5)
+  ...[["I like apples",0],["Can you swim",1],["The sun is hot",0],["Where is my cat",1],["What is your name",1]]
+    .map(([s,ans]) => ({sec:"punct", type:"mcq", prompt:"Choose the end mark.", sentence2:s,
+      say:`${s}. Does this sentence need a period, or a question mark?`,
+      choices:[{t:".",lbl:"period",say:"period"},{t:"?",lbl:"question mark",say:"question mark"}], answer:ans})),
+
+  // 8. Nouns (1 task, 5 marks)
+  {sec:"nouns", type:"multi", points:5, prompt:"Tap the 5 nouns (naming words).",
+   hint:"A noun is a person, an animal, a place, or a thing.",
+   say:"Tap the five nouns. A noun is a naming word. It is a person, an animal, a place, or a thing.",
+   choices:["cat","run","school","big","mom","jump","ball","red","teacher","sad"].map(t=>({t,say:t})),
+   answer:[0,2,4,6,8]},
+
+  // 9. Reading (5 × 2 marks)
+  ...[["Sam has a pet ____.",["cat","dog","fish"],1],
+      ["What does Max look like?",["small and white","big and brown","big and black"],1],
+      ["What color is the ball?",["red","blue","green"],0],
+      ["Where do Sam and Max go on Friday?",["to school","to the shop","to the park"],2],
+      ["What do they do at home?",["They swim.","They rest.","They eat cake."],1]]
+    .map(([q,ch,ans]) => ({sec:"reading", type:"mcq", story:true, points:2, prompt:q, wide:true,
+      say:q.replace("____","blank"), choices:ch.map(t=>({t,say:t})), answer:ans})),
+
+  // 10. Build the sentence (4)
+  ...[[["The","cat","is","big"],[2,3,0,1]],
+      [["I","can","jump"],[2,0,1]],
+      [["This","is","my","bag"],[2,3,1,0]],
+      [["We","like","to","play"],[3,0,2,1]]]
+    .map(([words,shuf]) => ({sec:"order", type:"order", prompt:"Tap the words in order to make a sentence.",
+      words, pool:shuf.map(i=>words[i]),
+      say:"Tap the words in the right order to make a sentence. The words are: " + shuf.map(i=>words[i]).join(", ") + "."})),
+
+  // 11. Writing rules (5)
+  ...[["the dog is big.","The dog is big.","The dog is big",1],
+      ["I can run.","i can run.","I can run",0],
+      ["my cat is black","My cat is black.","my cat is black.",1],
+      ["We like to play","we like to play.","We like to play.",2]]
+    .map(([a,b,c,ans]) => ({sec:"write", type:"mcq", wide:true, prompt:"Which sentence is written correctly?",
+      hint:"Look for a capital letter at the start and a period at the end.",
+      say:"Which sentence is written correctly? Look for a capital letter at the start, and a period at the end.",
+      choices:[a,b,c].map(t=>({t,mute:true})), answer:ans})),
+  {sec:"write", type:"mcq", wide:true, prompt:"Which sentence matches the picture?", pic:"👦⚽",
+   say:"Look at the picture. Which sentence matches the picture?",
+   choices:["The girl reads a book.","The boy kicks the ball.","The dog eats a bone."].map(t=>({t,say:t})), answer:1},
+];
+Q.forEach((q,i)=>{ q.n=i+1; if(!q.points) q.points = q.type==="multi"?5:1; });
+const TOTAL = Q.reduce((s,q)=>s+q.points,0);
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const KEY = "g1-ela-term1-v1";
+let S = load() || fresh();
+function fresh(){ return {screen:"start", name:"", cls:"", idx:0, ans:{}, auto:true, rate:0.85, done:false}; }
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)); }catch(e){ return null; } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+/* ============================================================
+   SPEECH (browser text-to-speech)
+   ============================================================ */
+const synth = ("speechSynthesis" in window) ? window.speechSynthesis : null;
+let voice = null;
+function pickVoice(){
+  if(!synth) return;
+  const vs = synth.getVoices();
+  const us = vs.filter(v=>/^en[-_]US/i.test(v.lang));
+  const en = vs.filter(v=>/^en/i.test(v.lang));
+  const pref = /Samantha|Google US|Aria|Jenny|Ava|Natural|Zira/i;
+  voice = us.find(v=>pref.test(v.name)) || us[0] || en.find(v=>pref.test(v.name)) || en[0] || null;
+}
+if(synth){ pickVoice(); synth.onvoiceschanged = pickVoice; }
+let speakingEl = null;
+function speak(text, el){
+  if(!synth || !text) return;
+  try{
+    synth.cancel();
+    if(speakingEl) speakingEl.classList.remove("speaking");
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "en-US"; if(voice) u.voice = voice; u.rate = S.rate; u.pitch = 1.05;
+    if(el){ speakingEl = el; el.classList.add("speaking"); u.onend = u.onerror = ()=>el.classList.remove("speaking"); }
+    setTimeout(()=>synth.speak(u), 60);
+  }catch(e){}
+}
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+const $ = (sel,root=document)=>root.querySelector(sel);
+const esc = s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const secOf = id=>SECTIONS.find(s=>s.id===id);
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("show"),1800); }
+function answered(q){
+  const a = S.ans[q.n];
+  if(q.type==="multi") return Array.isArray(a) && a.length>0;
+  if(q.type==="order") return Array.isArray(a) && a.length===q.words.length;
+  return a!==undefined && a!==null;
+}
+function scoreQ(q){
+  const a = S.ans[q.n];
+  if(q.type==="multi"){
+    if(!Array.isArray(a)) return 0;
+    const good=a.filter(i=>q.answer.includes(i)).length, bad=a.length-good;
+    return Math.max(0, Math.min(q.points, good-bad));
+  }
+  if(q.type==="order"){
+    return Array.isArray(a) && a.map(i=>q.pool[i]).join(" ")===q.words.join(" ") ? q.points : 0;
+  }
+  return a===q.answer ? q.points : 0;
+}
+const spkBtn = (cls="")=>`<button class="spk ${cls}" data-spk aria-label="Listen" title="Listen">🔊</button>`;
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function render(){
+  save();
+  const app = $("#app");
+  if(S.screen==="start") app.innerHTML = viewStart();
+  else if(S.screen==="q") app.innerHTML = viewQ();
+  else if(S.screen==="review") app.innerHTML = viewReview();
+  else if(S.screen==="result") app.innerHTML = viewResult();
+  bind();
+  window.scrollTo({top:0});
+}
+
+function topBar(){
+  return `<div class="bar">
+    <div class="title">Grade 1 English<span class="hide-sm"> • First Term</span></div>
+    <button class="pill ${S.auto?"on":""}" data-act="auto"><span class="emo">${S.auto?"🔊":"🔇"}</span> Auto read: ${S.auto?"ON":"OFF"}</button>
+    <button class="pill" data-act="rate"><span class="emo">${S.rate<0.8?"🐢":"🐇"}</span> ${S.rate<0.8?"Slow":"Normal"}</button>
+  </div>`;
+}
+
+function viewStart(){
+  const inProgress = Object.keys(S.ans).length>0 && !S.done;
+  return `<div class="card hero">
+    <div class="emo" style="font-size:64px">🏫📚</div>
+    <h1>English Language Arts – Grade 1</h1>
+    <div class="sub">First Term Exam • ${Q.length} questions • ${TOTAL} marks</div>
+    <div class="form">
+      <label>Student name<input id="name" value="${esc(S.name)}" autocomplete="off" placeholder="Your name"></label>
+      <label>Class<input id="cls" value="${esc(S.cls)}" autocomplete="off" placeholder="1A"></label>
+    </div>
+    <div class="parts">${SECTIONS.map((s,i)=>{
+      const qs=Q.filter(q=>q.sec===s.id), m=qs.reduce((t,q)=>t+q.points,0);
+      return `<div><span class="emo">${s.icon}</span> Part ${i+1}: ${s.title} <b>(${m})</b></div>`;}).join("")}
+    </div>
+    ${synth?`<div class="nav" style="justify-content:center">
+        <button class="btn ghost" data-act="test"><span class="emo">🔊</span> Test the sound</button></div>`
+      :`<div class="notice">Read-aloud is not supported in this browser. Please use Chrome, Edge or Safari to hear the questions.</div>`}
+    <div class="nav">
+      ${inProgress?`<button class="btn ghost grow" data-act="restart">Start over</button>
+                    <button class="btn green grow" data-act="begin">Continue ▶</button>`
+                  :`<button class="btn green grow" data-act="begin">Start the exam ▶</button>`}
+    </div>
+    <div class="ar">اضغط على 🔊 لسماع السؤال أو أي اختيار • اختار الإجابة ثم اضغط Next</div>
+  </div>`;
+}
+
+function viewQ(){
+  const q = Q[S.idx], sec = secOf(q.sec), si = SECTIONS.indexOf(sec)+1;
+  const pct = Math.round(100*Q.filter(answered).length/Q.length);
+  const a = S.ans[q.n];
+  let stage = "", body = "";
+
+  if(q.story) stage += `<div class="story"><div class="hd">${spkBtn("sm")} <span data-story>${STORY.title}</span> <span class="emo">${STORY.pic}</span></div>${esc(STORY.text)}</div>`;
+  if(q.type==="listen") stage += `<div class="stage"><button class="listen-btn" data-act="play"><span class="emo">🔊</span> Play the word</button></div>`;
+  let st = "";
+  if(q.pic) st += `<div class="pic emo">${q.pic}</div>`;
+  if(q.big) st += `<div class="big">${esc(q.big)}</div>`;
+  if(q.word) st += `<div class="word">${q.word[0]}<span class="gap"></span>${q.word[1]}</div>`;
+  if(q.sentence) st += `<div class="sentence">${esc(q.sentence[0])}<span class="gap">${a!==undefined?esc(q.choices[a].t):""}</span>${esc(q.sentence[1])}</div>`;
+  if(q.sentence2) st += `<div class="sentence">${esc(q.sentence2)}<span class="gap" style="min-width:40px">${a!==undefined?esc(q.choices[a].t):""}</span></div>`;
+  if(st) stage += `<div class="stage">${st}</div>`;
+
+  if(q.type==="mcq" || q.type==="listen"){
+    body = `<div class="choices ${q.wide?"wide":""}">${q.choices.map((c,i)=>`
+      <button class="choice ${q.wide?"long":""} ${a===i?"sel":""}" data-pick="${i}">
+        ${c.e?`<span class="emo">${c.e}</span>`:""}<span>${esc(c.t)}</span>${c.lbl?`<span class="lbl">${c.lbl}</span>`:""}
+        ${c.mute?"":`<span class="spk sm" data-cspk="${i}" role="button" aria-label="Listen">🔊</span>`}
+      </button>`).join("")}</div>`;
+  } else if(q.type==="multi"){
+    const sel = Array.isArray(a)?a:[];
+    body = `<div class="hint">${q.hint} • Selected: <b>${sel.length}</b> / 5</div>
+      <div class="chips">${q.choices.map((c,i)=>`
+        <button class="choice ${sel.includes(i)?"sel":""}" data-toggle="${i}">${esc(c.t)}
+          <span class="spk sm" data-cspk="${i}" role="button" aria-label="Listen">🔊</span></button>`).join("")}</div>`;
+  } else if(q.type==="order"){
+    const used = Array.isArray(a)?a:[];
+    body = `<div class="slots">${used.length?used.map((pi,k)=>`<button class="tok" data-unplace="${k}">${esc(q.pool[pi])}${used.length===q.words.length&&k===used.length-1?"<b>.</b>":""}</button>`).join(""):`<span class="ph">Tap the words below…</span>`}</div>
+      <div class="hint" style="text-align:center">Tap a word in the box to take it back.</div>
+      <div class="pool">${q.pool.map((w,i)=>`<button class="tok ${used.includes(i)?"used":""}" data-place="${i}">${esc(w)}</button>`).join("")}</div>
+      <div class="nav" style="justify-content:center;margin-top:12px"><button class="btn ghost" data-act="clear">↺ Clear</button></div>`;
+  }
+  const isLast = S.idx===Q.length-1;
+  return `${topBar()}
+  <div class="progress"><div style="width:${pct}%"></div></div>
+  <div class="card">
+    <div class="sec"><span class="badge"><span class="emo">${sec.icon}</span> Part ${si}: ${sec.title}</span>
+      <span class="count">Question ${q.n} of ${Q.length} • ${q.points} mark${q.points>1?"s":""}</span></div>
+    <div class="prompt">${spkBtn()}<span>${esc(q.prompt)}</span></div>
+    ${q.hint && q.type!=="multi"?`<div class="hint">${q.hint}</div>`:""}
+    ${stage}${body}
+  </div>
+  <div class="nav">
+    <button class="btn ghost" data-act="prev" ${S.idx===0?"disabled":""}>◀ Back</button>
+    <button class="btn ghost" data-act="review">☰</button>
+    <button class="btn grow ${isLast?"orange":""}" data-act="next">${isLast?"Finish ✔":"Next ▶"}</button>
+  </div>`;
+}
+
+function viewReview(){
+  const miss = Q.filter(q=>!answered(q));
+  return `${topBar()}<div class="card">
+    <div class="prompt"><span class="emo" style="font-size:34px">📝</span> Check your answers</div>
+    <div>${miss.length?`You did not answer <b style="color:var(--red)">${miss.length}</b> question${miss.length>1?"s":""}. Tap a red number to go back.`:`Great! You answered all the questions. <span class="emo">🎉</span>`}</div>
+    ${SECTIONS.map((s,i)=>`<div style="margin-top:12px;font-weight:700;font-size:17px"><span class="emo">${s.icon}</span> Part ${i+1}: ${s.title}</div>
+      <div class="grid-nums">${Q.filter(q=>q.sec===s.id).map(q=>`<button class="${answered(q)?"done":"miss"}" data-go="${q.n-1}">${q.n}</button>`).join("")}</div>`).join("")}
+    <div class="nav">
+      <button class="btn ghost grow" data-act="back">◀ Back to questions</button>
+      <button class="btn green grow" data-act="submit">Submit ✔</button>
+    </div>
+  </div>`;
+}
+
+function answerText(q, a){
+  if(a===undefined || a===null || (Array.isArray(a)&&!a.length)) return "—";
+  if(q.type==="multi") return a.map(i=>q.choices[i].t).join(", ");
+  if(q.type==="order") return a.map(i=>q.pool[i]).join(" ")+".";
+  const c=q.choices[a]; return c.lbl?`${c.t} (${c.lbl})`:c.t;
+}
+function correctText(q){
+  if(q.type==="multi") return q.answer.map(i=>q.choices[i].t).join(", ");
+  if(q.type==="order") return q.words.join(" ")+".";
+  const c=q.choices[q.answer]; return c.lbl?`${c.t} (${c.lbl})`:c.t;
+}
+function questionLabel(q){
+  if(q.big) return `${q.prompt} ${q.big}`;
+  if(q.word) return `${q.prompt} ${q.word[0]}_${q.word[1]} (${q.key})`;
+  if(q.key) return `${q.prompt} (${q.key})`;
+  if(q.sentence) return `${q.sentence[0]} ___ ${q.sentence[1]}`;
+  if(q.sentence2) return `${q.sentence2} __`;
+  if(q.type==="listen") return `${q.prompt} (word: ${q.target})`;
+  return q.prompt;
+}
+function results(){
+  const got = Q.reduce((s,q)=>s+scoreQ(q),0);
+  const pct = Math.round(100*got/TOTAL);
+  const stars = pct>=90?5:pct>=75?4:pct>=60?3:pct>=40?2:1;
+  const level = pct>=90?"Excellent!":pct>=75?"Very good!":pct>=60?"Good!":pct>=50?"Pass – keep practicing!":"Needs more practice";
+  return {got,pct,stars,level};
+}
+function viewResult(){
+  const r = results();
+  return `<div class="card hero">
+    <div class="emo" style="font-size:60px">${r.stars>=4?"🏆":r.stars>=3?"🎉":"💪"}</div>
+    <h1>${esc(r.level)}</h1>
+    <div class="sub">${esc(S.name||"Student")}${S.cls?` • Class ${esc(S.cls)}`:""}</div>
+    <div class="score-big">${r.got} / ${TOTAL}</div>
+    <div class="stars">${"⭐".repeat(r.stars)}${"☆".repeat(5-r.stars)}</div>
+    <div class="sub">${r.pct}%</div>
+    <table><tr><th>Part</th><th>Score</th></tr>
+      ${SECTIONS.map((s,i)=>{const qs=Q.filter(q=>q.sec===s.id);
+        return `<tr><td><span class="emo">${s.icon}</span> ${i+1}. ${s.title}</td><td><b>${qs.reduce((t,q)=>t+scoreQ(q),0)}</b> / ${qs.reduce((t,q)=>t+q.points,0)}</td></tr>`;}).join("")}
+      <tr><th>Total</th><th>${r.got} / ${TOTAL}</th></tr>
+    </table>
+    <div class="nav">
+      <button class="btn ghost grow" data-act="copy">📋 Copy result</button>
+      <button class="btn ghost grow" data-act="answers">See answers</button>
+      <button class="btn grow" data-act="restart">New attempt</button>
+    </div>
+    <div id="answers" style="display:none;text-align:left;margin-top:14px">
+      ${Q.map(q=>{const p=scoreQ(q), ok=p===q.points;
+        return `<div class="rv ${ok?"ok":"bad"}"><b>${q.n}.</b> ${esc(questionLabel(q))}<br>
+          Your answer: <b class="${ok?"c":"w"}">${esc(answerText(q,S.ans[q.n]))}</b> ${ok?"✅":`❌ &nbsp; Correct: <b class="c">${esc(correctText(q))}</b>`}
+          <span style="float:right;color:var(--muted)">${p}/${q.points}</span></div>`;}).join("")}
+    </div>
+  </div>`;
+}
+
+/* ============================================================
+   EVENTS
+   ============================================================ */
+function go(i){ S.idx=Math.max(0,Math.min(Q.length-1,i)); S.screen="q"; render(); autoRead(); }
+function autoRead(){ if(S.auto && S.screen==="q"){ const q=Q[S.idx]; speak(q.say, $(".prompt .spk")); } }
+
+function bind(){
+  const app = $("#app");
+  app.onclick = (ev)=>{
+    const t = ev.target.closest("[data-cspk],[data-spk],[data-act],[data-pick],[data-toggle],[data-place],[data-unplace],[data-go]");
+    if(!t) return;
+    const q = Q[S.idx];
+    if(t.dataset.cspk!==undefined){ ev.stopPropagation(); const c=q.choices[+t.dataset.cspk]; speak(c.say||c.t, t); return; }
+    if(t.dataset.spk!==undefined){
+      if(t.closest(".story")) speak(STORY.title+". "+STORY.text, t); else speak(q.say, t);
+      return;
+    }
+    if(t.dataset.pick!==undefined){ S.ans[q.n]=+t.dataset.pick; render(); return; }
+    if(t.dataset.toggle!==undefined){
+      const i=+t.dataset.toggle, cur=Array.isArray(S.ans[q.n])?S.ans[q.n]:[];
+      S.ans[q.n]=cur.includes(i)?cur.filter(x=>x!==i):[...cur,i]; render(); return;
+    }
+    if(t.dataset.place!==undefined){
+      const cur=Array.isArray(S.ans[q.n])?S.ans[q.n]:[]; const i=+t.dataset.place;
+      if(!cur.includes(i)){ S.ans[q.n]=[...cur,i]; speak(q.pool[i]); } render(); return;
+    }
+    if(t.dataset.unplace!==undefined){ const cur=S.ans[q.n].slice(); cur.splice(+t.dataset.unplace,1); S.ans[q.n]=cur; render(); return; }
+    if(t.dataset.go!==undefined){ go(+t.dataset.go); return; }
+
+    switch(t.dataset.act){
+      case "auto": S.auto=!S.auto; if(!S.auto && synth) synth.cancel(); render(); break;
+      case "rate": S.rate = S.rate<0.8?0.85:0.65; render(); speak(S.rate<0.8?"Slow voice.":"Normal voice."); break;
+      case "test": speak("Hello! I will read the questions for you. Let's start!", t); break;
+      case "begin":
+        S.name=$("#name").value.trim(); S.cls=$("#cls").value.trim();
+        if(!S.name){ $("#name").focus(); toast("Please write your name first ✍️"); return; }
+        S.done=false; go(S.idx); break;
+      case "restart": { const keep={name:S.name,cls:S.cls,auto:S.auto,rate:S.rate}; S=Object.assign(fresh(),keep); render(); break; }
+      case "prev": go(S.idx-1); break;
+      case "next": if(S.idx===Q.length-1){ S.screen="review"; render(); speak("Check your answers, then press submit."); } else go(S.idx+1); break;
+      case "review": S.screen="review"; render(); break;
+      case "back": go(S.idx); break;
+      case "play": speak(q.target+". ... "+q.target+".", t); break;
+      case "clear": S.ans[q.n]=[]; render(); break;
+      case "submit": {
+        const miss=Q.filter(x=>!answered(x)).length;
+        if(miss && !t.dataset.sure){ t.dataset.sure="1"; t.textContent=`Submit anyway (${miss} empty) ✔`; toast("Some questions are empty"); return; }
+        S.done=true; S.screen="result"; render();
+        const r=results(); speak(`${r.level} Your score is ${r.got} out of ${TOTAL}.`); break;
+      }
+      case "answers": { const el=$("#answers"); el.style.display=el.style.display==="none"?"block":"none"; break; }
+      case "copy": {
+        const r=results();
+        const lines=[`Grade 1 English – First Term Exam`,`Name: ${S.name}${S.cls?"  |  Class: "+S.cls:""}`,`Score: ${r.got}/${TOTAL} (${r.pct}%) – ${r.level}`,
+          ...SECTIONS.map((s,i)=>{const qs=Q.filter(q=>q.sec===s.id);return `${i+1}. ${s.title}: ${qs.reduce((x,q)=>x+scoreQ(q),0)}/${qs.reduce((x,q)=>x+q.points,0)}`;})];
+        const txt=lines.join("\n");
+        (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast("Result copied ✅")).catch(()=>{
+          const ta=document.createElement("textarea"); ta.value=txt; document.body.appendChild(ta); ta.select();
+          try{ document.execCommand("copy"); toast("Result copied ✅"); }catch(e){ toast("Copy not allowed here"); } ta.remove();
+        });
+        break;
+      }
+    }
+  };
+}
+
+if(S.screen==="q" || S.screen==="review") S.screen = S.done ? "result" : "start";
+render();
+</script>
+</body>
+</html>
