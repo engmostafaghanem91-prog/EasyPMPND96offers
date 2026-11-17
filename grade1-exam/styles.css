@@ -1,0 +1,139 @@
+@font-face { font-family: "Andika"; src: url("fonts/Andika-Regular.ttf"); font-weight: 400; }
+@font-face { font-family: "Andika"; src: url("fonts/Andika-Bold.ttf"); font-weight: 700; }
+
+@page { size: A4; margin: 12mm 13mm 14mm 13mm; }
+
+:root {
+  --ink: #1f2a44;
+  --blue: #2f6fd6;
+  --soft: #eef4ff;
+  --line: #9fb3d1;
+  --accent: #f2a516;
+  --green: #1f9d6b;
+  --red: #d64545;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: "Andika", "Noto Color Emoji", sans-serif;
+  color: var(--ink);
+  font-size: 17pt;
+  line-height: 1.35;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.emoji { font-family: "Noto Color Emoji"; font-size: 40pt; line-height: 1; }
+
+/* ---------- Header ---------- */
+.header {
+  border: 2.5px solid var(--blue);
+  border-radius: 14px;
+  padding: 10px 16px 12px;
+  margin-bottom: 12px;
+}
+.header .top { display: flex; justify-content: space-between; align-items: center; }
+.header .school { font-size: 14pt; font-weight: 700; }
+.header h1 { text-align: center; margin: 4px 0 2px; font-size: 22pt; color: var(--blue); }
+.header .sub { text-align: center; font-size: 13pt; margin-bottom: 8px; }
+.fields { display: grid; grid-template-columns: 1.6fr 1fr; gap: 6px 22px; font-size: 14pt; }
+.field { display: flex; align-items: flex-end; gap: 8px; }
+.field .blank { flex: 1; border-bottom: 1.5px dotted var(--ink); height: 22px; }
+.score {
+  border: 2px solid var(--accent); border-radius: 12px; padding: 4px 14px;
+  font-size: 13pt; font-weight: 700; text-align: center; min-width: 110px;
+}
+.score .big { font-size: 18pt; }
+
+/* ---------- Questions ---------- */
+.q {
+  border: 1.8px solid var(--line);
+  border-radius: 14px;
+  padding: 10px 16px 14px;
+  margin-bottom: 12px;
+  break-inside: avoid;
+}
+.q-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.q-num {
+  background: var(--blue); color: #fff; font-weight: 700;
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 15pt; flex: none;
+}
+.q-title { font-weight: 700; font-size: 17pt; flex: 1; }
+.marks {
+  background: var(--soft); border: 1.5px solid var(--blue); border-radius: 20px;
+  font-size: 12pt; font-weight: 700; padding: 2px 12px; white-space: nowrap;
+}
+.page-break { break-before: page; }
+
+/* Matching */
+.match { display: flex; justify-content: center; gap: 190px; }
+.match .col { display: flex; flex-direction: column; gap: 2px; }
+.match .item { display: flex; align-items: center; gap: 12px; font-size: 26pt; font-weight: 700; }
+.match .col.right .item { flex-direction: row-reverse; }
+.dot { width: 14px; height: 14px; border-radius: 50%; background: var(--ink); display: inline-block; }
+
+/* Picture cards */
+.cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.card {
+  border: 1.5px solid var(--line); border-radius: 12px; text-align: center; padding: 8px 4px 10px;
+}
+.card .num { font-size: 11pt; color: #6b7a93; text-align: left; padding-left: 6px; }
+.choices { display: flex; justify-content: center; gap: 14px; font-size: 20pt; font-weight: 700; margin-top: 6px; }
+.word { font-size: 23pt; font-weight: 700; margin-top: 6px; letter-spacing: 2px; }
+.word .gap { display: inline-block; width: 30px; border-bottom: 2.5px solid var(--ink); }
+
+/* Rows (rhyme / punctuation / sight words) */
+.rows { display: flex; flex-direction: column; gap: 9px; }
+.row { display: flex; align-items: center; gap: 14px; }
+.row .n { width: 26px; font-weight: 700; color: #6b7a93; font-size: 14pt; }
+.row .lead { font-weight: 700; min-width: 120px; font-size: 19pt; }
+.row .opts { display: flex; gap: 30px; font-size: 19pt; }
+.row .emoji { font-size: 28pt; }
+.blank-line { display: inline-block; width: 110px; border-bottom: 2px solid var(--ink); margin: 0 4px; }
+.box { display: inline-block; width: 34px; height: 34px; border: 2px solid var(--ink); border-radius: 6px; vertical-align: middle; margin-left: 4px; }
+
+.wordbank {
+  display: flex; justify-content: center; gap: 22px; margin: 2px auto 10px;
+  border: 2px dashed var(--accent); border-radius: 12px; padding: 6px 12px; width: fit-content;
+  font-size: 19pt; font-weight: 700;
+}
+
+/* Nouns */
+.nouns { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.nouns div {
+  border: 1.5px solid var(--line); border-radius: 10px; text-align: center; padding: 8px 0; font-size: 20pt; font-weight: 700;
+}
+
+/* Reading */
+.story {
+  background: #fffaf0; border: 2px solid var(--accent); border-radius: 12px;
+  padding: 10px 16px; font-size: 19pt; line-height: 1.6; margin-bottom: 10px;
+}
+.story h3 { margin: 0 0 4px; text-align: center; font-size: 19pt; }
+.mcq { margin-bottom: 8px; }
+.mcq .stem { font-weight: 700; }
+.mcq .opts { display: flex; gap: 34px; padding-left: 30px; font-size: 17pt; }
+.mcq .opts span::before { content: "◯ "; }
+
+/* Handwriting lines */
+.hw {
+  height: 46px; margin: 6px 0 16px;
+  border-top: 1.5px solid #5f7bb0; border-bottom: 1.5px solid #5f7bb0;
+  background-image: linear-gradient(to right, #9fb3d1 55%, transparent 45%);
+  background-size: 14px 1.5px; background-repeat: repeat-x; background-position: 0 50%;
+}
+.scramble { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.scramble span {
+  border: 1.8px solid var(--blue); background: var(--soft); border-radius: 8px; padding: 1px 12px; font-size: 18pt; font-weight: 700;
+}
+
+.instr { font-size: 14pt; color: #4a5872; margin: -2px 0 8px; }
+.end { text-align: center; font-size: 18pt; font-weight: 700; color: var(--green); margin-top: 8px; }
+.end .emoji { font-size: 22pt; }
+
+/* Answer key */
+.key .ans { color: var(--red); font-weight: 700; }
+.key table { width: 100%; border-collapse: collapse; font-size: 12.5pt; }
+.key td, .key th { border: 1px solid var(--line); padding: 4px 8px; vertical-align: top; text-align: left; }
+.key th { background: var(--soft); }
