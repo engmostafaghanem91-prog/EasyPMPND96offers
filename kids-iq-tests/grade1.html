@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-only="1">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ألغاز الأذكياء: الصف الأول</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;800&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE children's occasion: playful, bright, very clear, kind
+   IDEA a school puzzle booklet whose shapes look like stickers
+   PICTURE the question card itself, large, with drawn shapes, sequences and grids
+   COLOUR white ground, sunshine yellow for grade 1, sea teal for grade 4, coral for the missing piece; night is deep teal-black
+   TYPE Baloo Bhaijaan 2 for titles + Cairo for text
+   LAYOUT home: title band, two full-bleed colour columns (stack on phone); quiz: colour band with progress dots, one centred card */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0e1a19);--ink:light-dark(#1b2340,#eef4f3);--mut:light-dark(#566079,#a9bcb9);--card:light-dark(#ffffff,#152826);--soft:light-dark(#f2f4fa,#1d3532);--line:light-dark(#dfe3ee,#2c4844);--sun:light-dark(#ffc93c,#e9ae1c);--sea:light-dark(#36c9bb,#22a99c);--cor:#ff5a5f;--ok:#1f9d55;--bad:#e5484d;--band-ink:#1b2340;--acc:var(--sun)}
+:root[data-theme=light]{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:17px/1.6 Cairo,Tahoma,sans-serif;overflow-x:clip}
+body.g4{--acc:var(--sea)}
+h1,h2,h3{font-family:"Baloo Bhaijaan 2",Cairo,sans-serif;line-height:1.1;margin:0;letter-spacing:0}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--cor);outline-offset:3px}
+.band{padding-block:clamp(22px,3.5vw,48px);padding-inline:max(5vw,16px)}
+.wrap{max-width:1100px;margin-inline:auto}
+[hidden]{display:none!important}
+.btn{min-height:48px;padding:8px 22px;border-radius:14px;border:2px solid var(--band-ink);background:var(--band-ink);color:#fff;font-weight:700;font-size:17px}
+.btn.alt{background:transparent;color:inherit;border-color:currentColor}
+.btn:active{transform:translateY(2px)}
+/* home */
+.top{background:var(--soft)}
+.top .wrap{display:flex;flex-wrap:wrap;gap:16px 40px;align-items:end;justify-content:space-between}
+.top h1{font-size:clamp(38px,6vw,60px)}
+.top p{margin:8px 0 0;color:var(--mut);max-width:34em}
+.name label{display:block;font-weight:700;margin-bottom:6px}
+.name input{font:inherit;font-size:17px;min-height:48px;width:min(260px,100%);padding:8px 14px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--ink)}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.gcard{color:var(--band-ink);padding:clamp(24px,4vw,48px) max(5vw,16px);display:grid;gap:14px;align-content:start}
+.gcard.c1{background:var(--sun)}
+.gcard.c4{background:var(--sea)}
+.gcard h2{font-size:clamp(34px,4.6vw,48px)}
+.gcard .meta{font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0;list-style:none}
+.chips li{background:rgba(255,255,255,.55);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600}
+.deco{display:flex;flex-wrap:wrap;align-items:end;gap:6px;min-height:120px;padding-block:6px}
+.deco .shp{width:clamp(48px,6.4vw,76px);height:auto}
+.deco .mat{width:200px;background:rgba(255,255,255,.6);padding:8px;border-radius:16px}
+.deco .mat .cell{background:#fff;min-width:0;min-height:0;aspect-ratio:1;padding:4px}
+.deco .mat .cell .shp{width:100%;height:auto}
+.acts{display:flex;flex-wrap:wrap;gap:10px}
+.note .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px 48px}
+.note h3{font-size:26px;margin-bottom:8px}
+.note ul{margin:0;padding-inline-start:20px}
+.note li{margin-bottom:6px}
+.warn{border-inline-start:5px solid var(--cor);padding:4px 16px;color:var(--mut)}
+/* quiz */
+.qbar{background:var(--acc);color:var(--band-ink);padding-block:16px 18px}
+.qbar .wrap{display:grid;gap:10px}
+.qrow{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between}
+.qrow h2{font-size:clamp(24px,3.4vw,32px)}
+.chip{background:rgba(255,255,255,.6);border-radius:999px;padding:3px 14px;font-weight:700;font-size:15px}
+.home{min-height:44px;padding:4px 16px;border-radius:12px;border:2px solid var(--band-ink);background:transparent;font-weight:700;color:var(--band-ink)}
+.dots{display:flex;flex-wrap:wrap;gap:5px}
+.dots i{width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.6);border:2px solid rgba(27,35,64,.25)}
+.dots i.cur{background:var(--band-ink);border-color:var(--band-ink)}
+.dots i.ok{background:var(--ok);border-color:var(--ok)}
+.dots i.bad{background:var(--bad);border-color:var(--bad)}
+.qmain{padding:clamp(18px,3vw,36px) max(4vw,12px) 48px}
+.card{max-width:880px;margin-inline:auto;background:var(--card);border:2px solid var(--line);border-radius:26px;padding:clamp(18px,3vw,34px);box-shadow:0 6px 0 var(--line)}
+.qhead{display:flex;gap:12px;align-items:start;justify-content:space-between}
+.qt{font-size:clamp(21px,2.8vw,27px);font-weight:700;margin:0;line-height:1.5;text-wrap:balance}
+.g4 .qt{font-size:clamp(19px,2.4vw,23px)}
+.say{flex:none;width:48px;height:48px;border-radius:50%;border:2px solid var(--line);background:var(--soft);display:grid;place-items:center}
+.say svg{width:24px;height:24px}
+.fig{margin:20px 0 6px;display:flex;justify-content:center}
+.fig:empty{display:none}
+.seq,.ana,.eqs,.maps{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center}
+.cell{min-width:68px;min-height:68px;padding:6px;border-radius:16px;background:var(--soft);display:grid;place-items:center;font-size:28px;font-weight:700;font-family:"Baloo Bhaijaan 2",Cairo,sans-serif}
+.cell.w{padding-inline:16px;font-size:22px;font-family:Cairo,sans-serif}
+.cell.q{border:3px dashed var(--cor);background:transparent;color:var(--cor);font-size:34px}
+.to{font-size:28px;color:var(--mut)}
+.as{font-weight:700;color:var(--mut);padding-inline:8px}
+.mat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:min(300px,100%)}
+.mat .cell{min-width:0;aspect-ratio:1}
+.grp{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;max-width:72px}
+.mat .grp{max-width:60px}
+.scat{display:flex;flex-wrap:wrap;gap:14px 20px;justify-content:center;max-width:430px;padding:16px;background:var(--soft);border-radius:20px}
+.cmp{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%;max-width:560px}
+.gbox{background:var(--soft);border-radius:18px;padding:12px;text-align:center}
+.gbox b{display:block;margin-bottom:8px}
+.gbox div{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;min-height:120px}
+.eqs{flex-direction:column}
+.eqs>div,.maps>div{display:flex;gap:8px;align-items:center;font-size:28px;font-weight:700}
+.maps{flex-direction:column}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px}
+.opt{position:relative;min-height:84px;border-radius:18px;border:3px solid var(--line);background:var(--card);display:grid;place-items:center;padding:12px 40px 12px 12px;transition:transform .12s}
+.opt:hover{border-color:var(--acc);transform:translateY(-2px)}
+.opt .k{position:absolute;inset-inline-start:10px;top:10px;width:28px;height:28px;border-radius:50%;background:var(--soft);font-weight:700;font-size:15px;display:grid;place-items:center}
+.otx{font-size:22px;font-weight:700}
+.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,var(--card))}
+.opt.bad{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,var(--card))}
+.opt.dim{opacity:.45}
+.opt[disabled]{cursor:default;transform:none}
+.fb{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-top:20px;min-height:52px}
+.fb p{margin:0;font-weight:700;font-size:19px}
+.fb p.ok{color:var(--ok)}
+.fb p.bad{color:var(--bad)}
+.shp{display:block;filter:drop-shadow(0 3px 0 rgba(0,0,0,.14))}
+/* results */
+.rtop{background:var(--acc);color:var(--band-ink)}
+.rtop .wrap{display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px 40px;align-items:center}
+.score{font-family:"Baloo Bhaijaan 2",Cairo,sans-serif;font-size:clamp(72px,12vw,120px);line-height:1;font-weight:800;white-space:nowrap}
+.score small{font-size:.38em}
+.stars{display:flex;gap:4px;margin-bottom:8px}
+.stars svg{width:38px;height:38px}
+.rtop h2{font-size:clamp(30px,4vw,44px)}
+.rtop p{margin:6px 0 0;font-weight:600}
+.rgrid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px 48px}
+.rgrid h3{font-size:26px;margin-bottom:12px}
+.bars{display:grid;gap:12px}
+.bar{display:grid;grid-template-columns:minmax(0,9em) minmax(0,1fr) auto;gap:10px;align-items:center}
+.bar .tr{height:18px;border-radius:9px;background:var(--soft);overflow:hidden}
+.bar .tr i{display:block;height:100%;border-radius:9px;background:var(--acc)}
+.bar b{white-space:nowrap;font-variant-numeric:tabular-nums}
+.ins{background:var(--soft);border-radius:18px;padding:16px 20px;margin-top:18px}
+.ins p{margin:4px 0}
+.rev{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.rev li{border:2px solid var(--line);border-radius:16px;padding:10px 14px}
+.rev p{margin:0 0 6px;font-weight:600}
+.rev .pr{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;font-size:15px}
+.rev .pr span{display:flex;gap:6px;align-items:center}
+.rev .shp{width:34px;height:34px}
+.rev .grp{max-width:60px}
+.rev .grp .shp{width:16px;height:16px}
+.rf{display:flex;justify-content:flex-start;margin:4px 0 8px}
+.rf .cell{min-width:40px;min-height:40px;font-size:18px;border-radius:10px;padding:4px}
+.rf .cell.w{font-size:15px;padding-inline:10px}
+.rf .shp{width:28px;height:28px}
+.rf .mat{width:150px}
+.rf .to,.rf .eqs>div,.rf .maps>div{font-size:18px}
+.rf .gbox div{min-height:50px}
+.rev .otx{font-size:16px}
+.allok{font-weight:700;color:var(--ok)}
+#toast{position:fixed;inset-inline:16px;bottom:16px;margin-inline:auto;max-width:420px;background:var(--band-ink);color:#fff;padding:12px 18px;border-radius:14px;text-align:center;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.on{opacity:1}
+@media(max-width:700px){.cols,.note .wrap,.rgrid{grid-template-columns:minmax(0,1fr)}.rtop .wrap{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:520px){.cell{min-width:54px;min-height:54px;font-size:23px}.cell .shp{width:42px;height:42px}.cell.w{font-size:18px}.opt{min-height:74px;padding-inline:34px 8px}.otx{font-size:19px}.to{font-size:22px}.eqs>div,.maps>div{font-size:23px}.bar{grid-template-columns:minmax(0,7em) minmax(0,1fr) auto}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body class="g1">
+
+<section id="vHome">
+  <header class="band top">
+    <div class="wrap">
+      <div>
+        <h1>ألغاز الأذكياء</h1>
+        <p>اختبار تفاعلي في الذكاء والتفكير لتلاميذ الصف الأول: ٤٠ سؤالًا بالصور والأرقام والكلمات.</p>
+      </div>
+      <div class="name">
+        <label for="kid">اسم البطل أو البطلة</label>
+        <input id="kid" type="text" maxlength="24" placeholder="مثال: يوسف" autocomplete="off">
+      </div>
+    </div>
+  </header>
+  <div class="cols">
+    <article class="gcard c1">
+      <div class="deco" id="deco1"></div>
+      <h2>الصف الأول</h2>
+      <p class="meta">٤٠ سؤالًا، حوالي ٢٠ دقيقة، مع زر لسماع السؤال</p>
+      <ul class="chips"><li>الأنماط</li><li>الأعداد والعدّ</li><li>المختلف</li><li>اللغة والمعاني</li><li>الأشكال والمكان</li><li>التفكير المنطقي</li></ul>
+      <div class="acts" id="acts1"></div>
+    </article>
+    <article class="gcard c4">
+      <div class="deco" id="deco4"></div>
+      <h2>الصف الرابع</h2>
+      <p class="meta">٤٠ سؤالًا، حوالي ٣٠ دقيقة</p>
+      <ul class="chips"><li>المتتاليات</li><li>التناظر اللفظي</li><li>المختلف</li><li>الأشكال والمصفوفات</li><li>المسائل الحسابية</li><li>المنطق والاستنتاج</li></ul>
+      <div class="acts" id="acts4"></div>
+    </article>
+  </div>
+  <section class="band note">
+    <div class="wrap">
+      <div>
+        <h3>طريقة الاختبار</h3>
+        <ul>
+          <li>سؤال واحد في كل مرة، وأربعة اختيارات أو ثلاثة.</li>
+          <li>بعد الإجابة يظهر الصحيح باللون الأخضر، ثم اضغط «التالي».</li>
+          <li>لطفل الصف الأول: اقرأ السؤال معه أو اضغط زر السماعة.</li>
+          <li>من لوحة المفاتيح: الأرقام ١ إلى ٤ للاختيار، و Enter للتالي.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>للوالدين والمعلمين</h3>
+        <p class="warn">هذا اختبار تدريبي ممتع يقيس مهارات التفكير، وليس اختبار ذكاء معياريًا (IQ) ولا يعطي درجة ذكاء رسمية. للتقييم الدقيق راجع أخصائيًا نفسيًا تربويًا.</p>
+        <p>في النهاية تظهر الدرجة، ونتيجة كل مهارة، وأقوى مهارة، والمهارة التي تحتاج تدريبًا، مع مراجعة الأسئلة الخاطئة.</p>
+      </div>
+    </div>
+  </section>
+</section>
+
+<section id="vQuiz" hidden>
+  <header class="band qbar">
+    <div class="wrap">
+      <div class="qrow">
+        <h2 id="qNum"></h2>
+        <span class="chip" id="qCat"></span>
+        <button class="home" id="toHome" type="button">الرئيسية</button>
+      </div>
+      <div class="dots" id="dots"></div>
+    </div>
+  </header>
+  <main class="qmain">
+    <div class="card">
+      <div class="qhead">
+        <p class="qt" id="qText"></p>
+        <button class="say" id="say" type="button" aria-label="استمع إلى السؤال"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>
+      </div>
+      <div class="fig" id="qFig"></div>
+      <div class="opts" id="qOpts"></div>
+      <div class="fb"><p id="qFb"></p><button class="btn" id="next" type="button" hidden>التالي</button></div>
+    </div>
+  </main>
+</section>
+
+<section id="vRes" hidden>
+  <header class="band rtop">
+    <div class="wrap">
+      <div class="score" id="rScore"></div>
+      <div>
+        <div class="stars" id="rStars"></div>
+        <h2 id="rTitle"></h2>
+        <p id="rMeta"></p>
+      </div>
+    </div>
+  </header>
+  <section class="band">
+    <div class="wrap rgrid">
+      <div>
+        <h3>النتيجة في كل مهارة</h3>
+        <div class="bars" id="rBars"></div>
+        <div class="ins" id="rIns"></div>
+        <div class="acts" style="margin-top:18px">
+          <button class="btn" id="again" type="button">أعد الاختبار</button>
+          <button class="btn alt" id="other" type="button"></button>
+          <button class="btn alt" id="copy" type="button">نسخ النتيجة</button>
+          <button class="btn alt" id="rHome" type="button">الرئيسية</button>
+        </div>
+      </div>
+      <div>
+        <h3>مراجعة الأخطاء</h3>
+        <ul class="rev" id="rRev"></ul>
+      </div>
+    </div>
+  </section>
+  <section class="band note" style="padding-top:0">
+    <div class="wrap"><p class="warn">هذا اختبار تدريبي للمهارات، وليس اختبار ذكاء معياريًا (IQ). النتيجة تساعد على معرفة ما يحتاج إلى تدريب، ولا تُستخدم للتشخيص.</p></div>
+  </section>
+</section>
+
+<div id="toast" role="status"></div>
+
+<script>
+{
+const AR='٠١٢٣٤٥٦٧٨٩';
+const ar=s=>String(s).replace(/\d/g,d=>AR[d]);
+const C={R:'#e63946',B:'#2f80ed',G:'#27ae60',Y:'#f2b705',P:'#9b51e0',O:'#f2994a',K:'#1b2340'};
+const poly=(n,r,rot)=>{const p=[];for(let i=0;i<n;i++){const a=(rot+360*i/n)*Math.PI/180;p.push((50+r*Math.cos(a)).toFixed(1)+','+(50+r*Math.sin(a)).toFixed(1))}return p.join(' ')};
+const starPts=(()=>{const p=[];for(let i=0;i<10;i++){const r=i%2?19:46,a=(-90+36*i)*Math.PI/180;p.push((50+r*Math.cos(a)).toFixed(1)+','+(53+r*Math.sin(a)).toFixed(1))}return p.join(' ')})();
+const P={
+  circle:'<circle cx="50" cy="50" r="42"/>',
+  square:'<rect x="9" y="9" width="82" height="82" rx="10"/>',
+  tri:'<polygon points="50,7 94,89 6,89"/>',
+  star:'<polygon points="'+starPts+'"/>',
+  heart:'<path d="M50 90C20 68 6 50 6 33 6 18 17 8 30 8c9 0 16 5 20 13 4-8 11-13 20-13 13 0 24 10 24 25 0 17-14 35-44 57z"/>',
+  diamond:'<polygon points="50,4 93,50 50,96 7,50"/>',
+  hex:'<polygon points="'+poly(6,44,0)+'"/>',
+  pent:'<polygon points="'+poly(5,46,-90)+'"/>',
+  arrow:'<path d="M50 5 88 46H63v49H37V46H12z"/>',
+  F:'<path d="M26 8h54v16H43v19h27v16H43v33H26z"/>'
+};
+function S(t,c,o){
+  o=o||{};const z=o.z||52,col=C[c]||c,k=o.k||1;
+  let tr='rotate('+(o.r||0)+' 50 50)';
+  if(o.m)tr+=' translate(100 0) scale(-1 1)';
+  if(k!==1)tr='translate(50 50) scale('+k+') translate(-50 -50) '+tr;
+  return '<svg class="shp" width="'+z+'" height="'+z+'" viewBox="0 0 100 100" aria-hidden="true"><g transform="'+tr+'" fill="'+(o.o?'none':col)+'" stroke="'+col+'" stroke-width="'+(o.o?9:0)+'" stroke-linejoin="round">'+P[t]+'</g></svg>';
+}
+const grp=(n,t,c,z)=>'<span class="grp">'+Array(n).fill(S(t||'star',c||'Y',{z:z||20})).join('')+'</span>';
+const QC='<span class="cell q">؟</span>';
+const cell=x=>x===null?QC:(x.indexOf('<')<0?'<span class="cell'+(x.length>2?' w':'')+'">'+ar(x)+'</span>':'<span class="cell">'+x+'</span>');
+const seq=a=>'<div class="seq">'+a.map(cell).join('')+(a.indexOf(null)<0?QC:'')+'</div>';
+const row=a=>'<div class="seq">'+a.map(cell).join('')+'</div>';
+const ana=(a,b,c)=>'<div class="ana">'+cell(a)+'<b class="to">←</b>'+cell(b)+'<span class="as">كما</span>'+cell(c)+'<b class="to">←</b>'+QC+'</div>';
+const mat=a=>'<div class="mat">'+a.map(cell).join('')+'</div>';
+const scat=list=>'<div class="scat">'+list.map((x,i)=>'<span style="transform:rotate('+((i*47)%30-15)+'deg)">'+S(x[0],x[1],{z:46})+'</span>').join('')+'</div>';
+const Q=(c,t,f,o,a,fix)=>({c,t,f:f||'',raw:o,o:o.map(x=>x.indexOf('<')<0?'<span class="otx">'+ar(x)+'</span>':x),a,fix:!!fix});
+const s=(t,c,o)=>S(t,c,o);
+const TXT1='ما الشكل الذي يكمل النمط؟';
+const ODD='أي شكل مختلف عن الباقي؟';
+const ODW='أي كلمة لا تنتمي إلى المجموعة؟';
+const ANA1='الشكل الأول تغيّر. ماذا يصبح الشكل الثالث بالطريقة نفسها؟';
+const ANW='العلاقة بين الكلمتين الأوليين هي نفسها بين الكلمتين الأخريين. ما الكلمة الناقصة؟';
+const MAT='ما الشكل الذي يكمل المربع الكبير؟';
+
+const G1=[
+Q('p',TXT1,seq([s('circle','R'),s('square','B'),s('circle','R'),s('square','B'),s('circle','R')]),[s('square','B'),s('circle','R'),s('tri','G'),s('square','R')],0),
+Q('p',TXT1,seq([s('star','Y'),s('star','Y'),s('heart','R'),s('star','Y'),s('star','Y')]),[s('heart','R'),s('star','Y'),s('heart','B'),s('circle','Y')],0),
+Q('p',TXT1,seq([s('tri','G'),s('circle','B'),s('square','R'),s('tri','G'),s('circle','B')]),[s('square','R'),s('tri','G'),s('circle','B'),s('square','G')],0),
+Q('p',TXT1,seq([s('circle','O',{k:.45}),s('circle','O',{k:.7}),s('circle','O'),s('circle','O',{k:.45}),s('circle','O',{k:.7})]),[s('circle','O'),s('circle','O',{k:.45}),s('circle','O',{k:.7}),s('square','O')],0),
+Q('p','إلى أين سيشير السهم التالي؟',seq([s('arrow','B'),s('arrow','B',{r:90}),s('arrow','B',{r:180}),s('arrow','B',{r:270}),s('arrow','B')]),[s('arrow','B',{r:90}),s('arrow','B'),s('arrow','B',{r:180}),s('arrow','B',{r:270})],0),
+Q('p',TXT1,seq([s('circle','R'),s('circle','Y'),s('circle','B'),s('circle','R'),s('circle','Y')]),[s('circle','B'),s('circle','R'),s('circle','Y'),s('circle','G')],0),
+Q('p','كم نجمة ستكون في الخانة التالية؟',seq([grp(1),grp(2),grp(3)]),[grp(4),grp(5),grp(2),grp(3)],0),
+Q('p',TXT1,seq([s('square','B'),s('square','B'),s('star','Y'),s('star','Y'),s('square','B')]),[s('square','B'),s('star','Y'),s('circle','B'),s('star','B')],0),
+Q('n','كم نجمة ترى؟',scat(Array(7).fill(['star','Y'])),['5','6','7','8'],2),
+Q('n','كم مثلثًا في الصورة؟',scat([['tri','G'],['circle','B'],['square','R'],['tri','G'],['circle','B'],['tri','G'],['square','R'],['circle','B'],['tri','G']]),['3','4','5','9'],1),
+Q('n','ما العدد الناقص؟',seq(['1','2','3',null,'5']),['4','6','3','2'],0),
+Q('n','ما العدد الناقص؟',seq(['2','4','6',null,'10']),['7','8','9','12'],1),
+Q('n','ما العدد الناقص؟',seq(['10','9','8',null,'6']),['5','7','9','4'],1),
+Q('n','مع سارة 3 تفاحات، وأعطتها أمها تفاحتين. كم تفاحة مع سارة الآن؟','',['4','5','6','1'],1),
+Q('n','على الشجرة 6 عصافير، طار منها 2. كم عصفورًا بقي على الشجرة؟','',['8','3','4','2'],2),
+Q('n','في أي مجموعة عدد الدوائر أكثر؟','<div class="cmp"><div class="gbox"><b>المجموعة الأولى</b><div style="gap:14px">'+Array(5).fill(s('circle','B',{z:44})).join('')+'</div></div><div class="gbox"><b>المجموعة الثانية</b><div style="gap:2px">'+Array(5).fill(s('circle','B',{z:20})).join('')+'</div></div></div>',['المجموعة الأولى','المجموعة الثانية','العدد متساوٍ'],2,1),
+Q('o',ODD,'',[s('circle','R'),s('circle','R'),s('square','R'),s('circle','R')],2),
+Q('o',ODD,'',[s('star','Y'),s('star','Y'),s('star','B'),s('star','Y')],2),
+Q('o',ODD,'',[s('arrow','G'),s('arrow','G'),s('arrow','G',{r:180}),s('arrow','G')],2),
+Q('o',ODD,'',[s('tri','P'),s('tri','P'),s('tri','P',{k:.5}),s('tri','P')],2),
+Q('o',ODW,'',['تفاحة','موزة','كرسي','برتقالة'],2),
+Q('o',ODW,'',['قطة','كلب','سيارة','أرنب'],2),
+Q('o',ODW,'',['أحمر','أزرق','قلم','أخضر'],2),
+Q('o','أي شكل ليس له أركان (زوايا)؟','',[s('hex','O'),s('square','O'),s('circle','O'),s('tri','O')],2),
+Q('l','أي شيء نلبسه في القدمين؟','',['قبعة','حذاء','قفاز','نظارة'],1),
+Q('l','السمكة تسبح، والعصفور ...','',['يطير','ينبح','يزحف','يموء'],0),
+Q('l','القفاز لليد، و... للقدم.','',['القبعة','الجورب','الخاتم','الوشاح'],1),
+Q('l','ما عكس كلمة «كبير»؟','',['طويل','صغير','سريع','جميل'],1),
+Q('l','نرى القمر في الليل، ونرى ... في النهار.','',['النجوم','الشمس','المطر','الظلام'],1),
+Q('l','ما اليوم الذي يأتي بعد يوم الاثنين؟','',['الأحد','الثلاثاء','الخميس','الجمعة'],1),
+Q('v',ANA1,ana(s('circle','B'),s('circle','B',{k:.5}),s('square','B')),[s('square','B',{k:.5}),s('square','B'),s('circle','B',{k:.5}),s('tri','B',{k:.5})],0),
+Q('v',ANA1,ana(s('tri','R'),s('tri','B'),s('circle','R')),[s('circle','B'),s('circle','R'),s('tri','B'),s('square','B')],0),
+Q('v',ANA1,ana(s('arrow','G'),s('arrow','G',{r:90}),s('arrow','G',{r:180})),[s('arrow','G',{r:270}),s('arrow','G'),s('arrow','G',{r:90}),s('arrow','G',{r:180})],0),
+Q('v','كم ضلعًا للمثلث؟','<div class="cell">'+s('tri','G',{z:110})+'</div>',['2','3','4','5'],1),
+Q('v','ما الشكل الموجود بين النجمة والدائرة؟',row([s('star','Y'),s('heart','R'),s('circle','B'),s('square','G')]),[s('heart','R'),s('square','G'),s('star','Y'),s('circle','B')],0),
+Q('v','أي دائرة هي الأكبر؟','',[s('circle','G',{k:.55}),s('circle','G'),s('circle','G',{k:.75}),s('circle','G',{k:.35})],1),
+Q('r','أحمد أطول من سامي، وسامي أطول من علي. من الأقصر؟','',['أحمد','سامي','علي'],2,1),
+Q('r','لي أربع أرجل وأقول: مياو. من أنا؟','',['القطة','الكلب','البقرة','البطة'],0),
+Q('r','نلبس المعطف الثقيل عندما يكون الجو ...','',['حارًا جدًا','باردًا','في الصيف','على البحر'],1),
+Q('r','أكمل الحروف بالترتيب:',seq(['أ','ب','ت','ث']),['ج','د','ح','ر'],0)
+];
+
+const tG=s('tri','G'),cR=s('circle','R'),sB=s('square','B');
+const tri=s('tri','P',{z:34}),cir=s('circle','O',{z:34});
+const eq=a=>'<div>'+a.map(x=>x===null?QC:(x.indexOf('<')<0?'<span>'+ar(x)+'</span>':x)).join('')+'</div>';
+const G4=[
+Q('s','ما العدد التالي في المتتالية؟',seq(['3','6','12','24']),['30','36','48','42'],2),
+Q('s','ما العدد التالي في المتتالية؟',seq(['1','4','9','16']),['20','23','25','32'],2),
+Q('s','ما العدد التالي في المتتالية؟',seq(['2','5','11','23']),['46','47','35','45'],1),
+Q('s','ما العدد التالي في المتتالية؟',seq(['100','90','81','73']),['64','65','66','63'],2),
+Q('s','ما العدد التالي في المتتالية؟',seq(['1','1','2','3','5','8']),['11','12','13','16'],2),
+Q('s','ما العدد التالي في المتتالية؟',seq(['5','10','8','16','14']),['12','28','30','18'],1),
+Q('s','ما الحرف التالي؟',seq(['أ','ت','ج','خ']),['د','ذ','ر','ح'],1),
+Q('a',ANW,ana('طبيب','مستشفى','معلم'),['مكتبة','مدرسة','كتاب','طالب'],1),
+Q('a',ANW,ana('ريش','طائر','قشور'),['قطة','سمكة','شجرة','فراشة'],1),
+Q('a',ANW,ana('ساعة','الوقت','ميزان'),['المسافة','الوزن','الحرارة','السرعة'],1),
+Q('a',ANW,ana('جرو','كلب','مُهر'),['بقرة','حصان','جمل','خروف'],1),
+Q('a',ANW,ana('قلم','كاتب','فرشاة'),['نجار','رسام','طباخ','خياط'],1),
+Q('a',ANW,ana('شمال','جنوب','شرق'),['غرب','يمين','أعلى','شمال'],0),
+Q('a',ANW,ana('ثانية','دقيقة','دقيقة'),['يوم','ساعة','أسبوع','ثانية'],1),
+Q('o',ODW,'',['أسد','نمر','فهد','بقرة'],3),
+Q('o','أي عدد لا ينتمي إلى المجموعة؟','',['9','15','28','21'],2),
+Q('o','أي عدد لا ينتمي إلى المجموعة؟','',['16','25','40','36'],2),
+Q('o',ODW,'',['المريخ','الزهرة','القمر','المشتري'],2),
+Q('o','ثلاثة من هذه الأشكال هي الشكل نفسه بعد تدويره. أي شكل مختلف؟','',[s('F','B'),s('F','B',{r:90}),s('F','B',{r:90,m:1}),s('F','B',{r:180})],2),
+Q('o',ODW,'',['سعيد','فرحان','حزين','مسرور'],2),
+Q('m',MAT,mat([s('circle','R'),s('square','R'),s('tri','R'),s('circle','B'),s('square','B'),s('tri','B'),s('circle','G'),s('square','G'),null]),[tG,s('tri','B'),s('square','G'),s('circle','G')],0),
+Q('m',MAT,mat([cR,sB,tG,tG,cR,sB,sB,tG,null]),[cR,sB,tG,s('circle','B')],0),
+Q('m',MAT,mat([grp(1,0,0,14),grp(2,0,0,14),grp(3,0,0,14),grp(2,0,0,14),grp(3,0,0,14),grp(4,0,0,14),grp(3,0,0,14),grp(4,0,0,14),null]),[grp(5),grp(4),grp(6),grp(3)],0),
+Q('m',MAT,mat([0,45,90,135,180,225,270,315].map(r=>s('arrow','P',{r,z:44})).concat([null])),[s('arrow','P'),s('arrow','P',{r:90}),s('arrow','P',{r:315}),s('arrow','P',{r:180})],0),
+Q('m','الشكل الأول تغيّر. ماذا يصبح الشكل الثالث بالطريقة نفسها؟',ana(s('circle','G'),s('circle','G',{o:1}),s('tri','G')),[s('tri','G',{o:1}),s('tri','G'),s('circle','G',{o:1}),s('square','G',{o:1})],0),
+Q('m','الشكل الأول تغيّر. ماذا يصبح الشكل الثالث بالطريقة نفسها؟',ana(s('square','R'),s('square','B',{k:.5}),s('circle','B')),[s('circle','R',{k:.5}),s('circle','B',{k:.5}),s('circle','R'),s('square','R',{k:.5})],0),
+Q('m',TXT1,seq([s('tri','P'),s('square','P'),s('pent','P')]),[s('hex','P'),s('diamond','P'),s('circle','P'),s('star','P')],0),
+Q('c','ثمن 3 أقلام 15 جنيهًا. كم ثمن 5 أقلام من النوع نفسه؟','',['20','25','30','45'],1),
+Q('c','عمر سارة 9 سنوات، وأخوها أكبر منها بـ 4 سنوات. كم سيكون عمر أخيها بعد 3 سنوات؟','',['13','16','12','19'],1),
+Q('c','في مزرعة دجاج وأرانب، عدد الرؤوس 10 وعدد الأرجل 28. كم أرنبًا في المزرعة؟','',['3','4','5','6'],1),
+Q('c','إذا كان اليوم الأربعاء، فما اليوم بعد 10 أيام؟','',['الجمعة','السبت','الأحد','الخميس'],1),
+Q('c','كل شكل يرمز إلى عدد. ما قيمة الدائرة؟','<div class="eqs">'+eq([tri,'+',tri,'=','10'])+eq([tri,'+',cir,'=','12'])+eq([cir,'=',null])+'</div>',['5','6','7','8'],2),
+Q('c','نصف عدد يساوي 12. ما ثلث هذا العدد؟','',['4','6','8','12'],2),
+Q('c','يبدأ الفيلم الساعة 4:45 ومدته ساعة ونصف. متى ينتهي؟','',['5:15','6:15','6:00','5:45'],1),
+Q('r','كل القطط لها ذيل، و«مشمش» قطة. ما الصحيح؟','',['مشمش له ذيل','مشمش ليس له ذيل','مشمش كلب','لا يمكن أن نعرف'],0),
+Q('r','في سباق: وصل كريم قبل ياسين، ووصلت ليلى بعد ياسين، ووصل عمر قبل كريم. من وصل ثالثًا؟','',['عمر','كريم','ياسين','ليلى'],2),
+Q('r','أنا عدد، إذا ضربتني في 3 ثم أضفت 4 أصبحت 19. ما أنا؟','',['5','6','7','4'],0),
+Q('r','اكتشف القاعدة: ما العدد الناقص؟','<div class="maps">'+[['2','5'],['3','7'],['4','9'],['6',null]].map(p=>'<div>'+cell(p[0])+'<b class="to">←</b>'+cell(p[1])+'</div>').join('')+'</div>',['11','12','13','15'],2),
+Q('r','مع منى ضعف عدد كتب هند، ومع هند 3 كتب أكثر من رنا. إذا كان مع رنا 4 كتب، فكم كتابًا مع منى؟','',['7','8','14','11'],2),
+Q('r','في صندوق 3 كرات حمراء و3 كرات زرقاء. ما أقل عدد من الكرات نسحبه دون أن ننظر لنضمن كرتين من اللون نفسه؟','',['2','3','4','6'],1)
+];
+
+const TESTS={
+  1:{name:'الصف الأول',qs:G1,cats:{p:'الأنماط',n:'الأعداد والعدّ',o:'المختلف',l:'اللغة والمعاني',v:'الأشكال والمكان',r:'التفكير المنطقي'}},
+  4:{name:'الصف الرابع',qs:G4,cats:{s:'المتتاليات',a:'التناظر اللفظي',o:'المختلف',m:'الأشكال والمصفوفات',c:'المسائل الحسابية',r:'المنطق والاستنتاج'}}
+};
+const KEYS=['أ','ب','ج','د'];
+const PRAISE=['أحسنت!','رائع!','ممتاز!','برافو عليك!','إجابة ذكية!'];
+const $=id=>document.getElementById(id);
+const ONLY=+(document.documentElement.dataset.only||0);
+let st={v:'home',g:ONLY||1,name:'',p:{}};
+if(ONLY){document.querySelector('.gcard.c'+(ONLY===1?4:1)).remove();document.querySelector('.cols').style.gridTemplateColumns='minmax(0,1fr)';$('other').remove();if(ONLY===4)document.querySelector('.note li:nth-child(3)').remove()}
+
+function shuffle(n){const a=[...Array(n).keys()];for(let i=n-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),2600)}
+function begin(g){
+  const qs=TESTS[g].qs;
+  st.p[g]={i:0,ans:Array(qs.length).fill(null),ord:qs.map(q=>q.fix?[...q.o.keys()]:shuffle(q.o.length)),t0:Date.now(),t1:0};
+  st.g=g;st.v='quiz';render();
+}
+function show(v){['vHome','vQuiz','vRes'].forEach(id=>$(id).hidden=id!=='v'+v);document.body.className='g'+st.g;window.scrollTo(0,0)}
+
+function renderHome(){
+  (ONLY?[ONLY]:[1,4]).forEach(g=>{
+    const p=st.p[g],acts=$('acts'+g);
+    if(p&&!p.t1&&p.ans.some(x=>x!==null)){
+      acts.innerHTML='<button class="btn" data-cont="'+g+'">أكمل من السؤال '+ar(p.i+1)+'</button><button class="btn alt" data-start="'+g+'">ابدأ من جديد</button>';
+    }else if(p&&p.t1){
+      acts.innerHTML='<button class="btn" data-start="'+g+'">ابدأ الاختبار</button><button class="btn alt" data-res="'+g+'">آخر نتيجة</button>';
+    }else acts.innerHTML='<button class="btn" data-start="'+g+'">ابدأ الاختبار</button>';
+  });
+  $('kid').value=st.name||'';
+  show('Home');document.body.className='g'+(ONLY||1);
+}
+
+function renderQuiz(){
+  const T=TESTS[st.g],p=st.p[st.g],q=T.qs[p.i],ord=p.ord[p.i],ch=p.ans[p.i],done=ch!==null;
+  $('qNum').textContent=T.name+': السؤال '+ar(p.i+1)+' من '+ar(T.qs.length);
+  $('qCat').textContent=T.cats[q.c];
+  $('dots').innerHTML=T.qs.map((x,j)=>{const a=p.ans[j];return '<i class="'+(a===null?(j===p.i?'cur':''):(a===x.a?'ok':'bad'))+'"></i>'}).join('');
+  $('qText').textContent=ar(q.t);
+  $('qFig').innerHTML=q.f;
+  $('qOpts').innerHTML=ord.map((oi,k)=>{
+    const cls=done?(oi===q.a?'ok':(oi===ch?'bad':'dim')):'';
+    return '<button class="opt '+cls+'" type="button" id="opt'+k+'" data-oi="'+oi+'" aria-label="الاختيار '+KEYS[k]+'"'+(done?' disabled':'')+'><span class="k">'+KEYS[k]+'</span>'+q.o[oi]+'</button>';
+  }).join('');
+  const fb=$('qFb');
+  if(done){
+    const ok=ch===q.a;
+    fb.className=ok?'ok':'bad';
+    fb.textContent=ok?PRAISE[p.i%PRAISE.length]:'محاولة جيدة! الإجابة الصحيحة باللون الأخضر.';
+    $('next').hidden=false;
+    $('next').textContent=p.i===T.qs.length-1?'عرض النتيجة':'التالي';
+  }else{fb.className='';fb.textContent='';$('next').hidden=true}
+  show('Quiz');
+}
+
+function choose(oi){
+  const p=st.p[st.g];if(p.ans[p.i]!==null)return;
+  p.ans[p.i]=oi;renderQuiz();$('next').focus({preventScroll:true});
+}
+function next(){
+  const p=st.p[st.g],n=TESTS[st.g].qs.length;
+  if(p.ans[p.i]===null)return;
+  if(p.i<n-1){p.i++;renderQuiz()}else{if(!p.t1)p.t1=Date.now();st.v='res';render()}
+}
+
+const STAR=on=>'<svg viewBox="0 0 100 100"><polygon points="'+starPts+'" fill="'+(on?'#fff':'rgba(255,255,255,.35)')+'" stroke="#1b2340" stroke-width="5" stroke-linejoin="round"/></svg>';
+function stats(){
+  const T=TESTS[st.g],p=st.p[st.g],by={};
+  Object.keys(T.cats).forEach(k=>by[k]={n:0,ok:0});
+  let score=0;
+  T.qs.forEach((q,j)=>{by[q.c].n++;if(p.ans[j]===q.a){by[q.c].ok++;score++}});
+  return {T,p,by,score,pct:Math.round(100*score/T.qs.length)};
+}
+function renderRes(){
+  const {T,p,by,score,pct}=stats(),n=T.qs.length;
+  const lv=pct>=90?[5,'ممتاز جدًا! تفكير رائع']:pct>=75?[4,'ممتاز! أداء قوي']:pct>=60?[3,'جيد جدًا! استمر']:pct>=40?[2,'جيد، ومع التدريب ستتحسن أكثر']:[1,'بداية جيدة، والتدريب يصنع الفرق'];
+  const name=st.name?st.name+'، ':'';
+  $('rScore').innerHTML=ar(score)+'<small> / '+ar(n)+'</small>';
+  $('rStars').innerHTML=[1,2,3,4,5].map(i=>STAR(i<=lv[0])).join('');
+  $('rTitle').textContent=name+lv[1];
+  const mins=Math.max(1,Math.round(((p.t1||Date.now())-p.t0)/60000));
+  $('rMeta').textContent=ar(T.name+': نسبة الإجابات الصحيحة '+pct+'٪، والوقت حوالي '+mins+' دقيقة');
+  const ks=Object.keys(T.cats);
+  $('rBars').innerHTML=ks.map(k=>{const b=by[k],w=Math.round(100*b.ok/b.n);return '<div class="bar"><span>'+T.cats[k]+'</span><span class="tr"><i style="width:'+w+'%"></i></span><b>'+ar(b.ok+' / '+b.n)+'</b></div>'}).join('');
+  const r=k=>by[k].ok/by[k].n;
+  const best=[...ks].sort((a,b)=>r(b)-r(a))[0],worst=[...ks].sort((a,b)=>r(a)-r(b))[0];
+  $('rIns').innerHTML='<p><b>أقوى مهارة:</b> '+T.cats[best]+' ('+ar(Math.round(100*r(best)))+'٪)</p>'+(r(worst)<1?'<p><b>مهارة تحتاج تدريبًا:</b> '+T.cats[worst]+' ('+ar(Math.round(100*r(worst)))+'٪)</p>':'<p><b>كل المهارات كاملة.</b> أداء ممتاز!</p>');
+  const wrong=T.qs.map((q,j)=>[q,j]).filter(([q,j])=>p.ans[j]!==q.a);
+  $('rRev').innerHTML=wrong.length?wrong.map(([q,j])=>'<li><p>'+ar(j+1)+'. '+ar(q.t)+'</p>'+(q.f?'<div class="rf">'+q.f+'</div>':'')+'<div class="pr"><span>إجابتك: '+q.o[p.ans[j]]+'</span><span style="color:var(--ok);font-weight:700">الصحيح: '+q.o[q.a]+'</span></div></li>').join(''):'<li class="allok">لا توجد أخطاء، كل الإجابات صحيحة!</li>';
+  if($('other'))$('other').textContent='جرّب اختبار '+TESTS[st.g===1?4:1].name;
+  show('Res');
+}
+function render(){
+  if(st.v==='quiz'&&st.p[st.g])renderQuiz();
+  else if(st.v==='res'&&st.p[st.g])renderRes();
+  else{st.v='home';renderHome()}
+}
+function speak(){
+  const p=st.p[st.g],q=TESTS[st.g].qs[p.i];
+  let txt=q.t;
+  if(q.raw.every(x=>x.indexOf('<')<0))txt+='. '+p.ord[p.i].map((oi,k)=>KEYS[k]+': '+q.raw[oi]).join('. ');
+  try{
+    const sy=window.speechSynthesis;
+    if(!sy||!window.SpeechSynthesisUtterance){toast('القراءة الصوتية غير متاحة على هذا الجهاز');return}
+    sy.cancel();
+    const u=new SpeechSynthesisUtterance(txt);u.lang='ar-SA';u.rate=.85;
+    const v=sy.getVoices().find(v=>/^ar/i.test(v.lang));if(v)u.voice=v;else toast('قد لا يوجد صوت عربي على هذا الجهاز');
+    sy.speak(u);
+  }catch(e){toast('القراءة الصوتية غير متاحة هنا')}
+}
+
+if($('deco1'))$('deco1').innerHTML=[s('circle','R',{z:84}),s('square','B',{z:84,r:-8}),s('tri','G',{z:84}),s('heart','R',{z:84,r:8}),s('star','O',{z:84})].join('');
+if($('deco4'))$('deco4').innerHTML=mat([s('circle','R'),s('square','B'),s('tri','G'),s('tri','G'),s('circle','R'),s('square','B'),s('square','B'),s('tri','G'),null]);
+
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.start){begin(+b.dataset.start);return}
+  if(b.dataset.cont){st.g=+b.dataset.cont;st.v='quiz';render();return}
+  if(b.dataset.res){st.g=+b.dataset.res;st.v='res';render();return}
+  if(b.dataset.oi!==undefined){choose(+b.dataset.oi);return}
+  switch(b.id){
+    case 'next':next();break;
+    case 'say':speak();break;
+    case 'toHome':case 'rHome':st.v='home';render();break;
+    case 'again':begin(st.g);break;
+    case 'other':begin(st.g===1?4:1);break;
+    case 'copy':{
+      const {T,by,score}=stats();
+      const txt=(st.name?st.name+': ':'')+'ألغاز الأذكياء، '+T.name+'\nالدرجة: '+score+' / '+T.qs.length+'\n'+Object.keys(T.cats).map(k=>T.cats[k]+': '+by[k].ok+' / '+by[k].n).join('\n');
+      try{navigator.clipboard.writeText(txt).then(()=>toast('تم نسخ النتيجة'),()=>toast('تعذّر النسخ'))}catch(err){toast('تعذّر النسخ')}
+      break;
+    }
+  }
+});
+$('kid').addEventListener('input',e=>{st.name=e.target.value.trim()});
+document.addEventListener('keydown',e=>{
+  if(st.v!=='quiz'||e.target.tagName==='INPUT')return;
+  const d=('١٢٣٤'.indexOf(e.key)+1)||(['1','2','3','4'].indexOf(e.key)+1);
+  if(d){const o=$('opt'+(d-1));if(o&&!o.disabled)o.click()}
+  else if(e.key==='Enter'&&!$('next').hidden){e.preventDefault();next()}
+});
+
+function start(data){
+  if(data&&data.p&&typeof data.p==='object')st=Object.assign(st,data);
+  render();
+}
+window.claude?.hot?.snapshot?.(()=>st);
+window.claude?.hot?.ready?window.claude.hot.ready(start):start(window.claude?.hot?.data??{});
+}
+</script>
+</body>
+</html>
