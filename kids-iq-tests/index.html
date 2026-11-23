@@ -402,7 +402,9 @@ const TESTS={
 const KEYS=['أ','ب','ج','د'];
 const PRAISE=['أحسنت!','رائع!','ممتاز!','برافو عليك!','إجابة ذكية!'];
 const $=id=>document.getElementById(id);
-let st={v:'home',g:1,name:'',p:{}};
+const ONLY=+(document.documentElement.dataset.only||0);
+let st={v:'home',g:ONLY||1,name:'',p:{}};
+if(ONLY){document.querySelector('.gcard.c'+(ONLY===1?4:1)).remove();document.querySelector('.cols').style.gridTemplateColumns='minmax(0,1fr)';$('other').remove();if(ONLY===4)document.querySelector('.note li:nth-child(3)').remove()}
 
 function shuffle(n){const a=[...Array(n).keys()];for(let i=n-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),2600)}
@@ -414,8 +416,7 @@ function begin(g){
 function show(v){['vHome','vQuiz','vRes'].forEach(id=>$(id).hidden=id!=='v'+v);document.body.className='g'+st.g;window.scrollTo(0,0)}
 
 function renderHome(){
-  document.body.className='g1';
-  [1,4].forEach(g=>{
+  (ONLY?[ONLY]:[1,4]).forEach(g=>{
     const p=st.p[g],acts=$('acts'+g);
     if(p&&!p.t1&&p.ans.some(x=>x!==null)){
       acts.innerHTML='<button class="btn" data-cont="'+g+'">أكمل من السؤال '+ar(p.i+1)+'</button><button class="btn alt" data-start="'+g+'">ابدأ من جديد</button>';
@@ -424,7 +425,7 @@ function renderHome(){
     }else acts.innerHTML='<button class="btn" data-start="'+g+'">ابدأ الاختبار</button>';
   });
   $('kid').value=st.name||'';
-  show('Home');document.body.className='g1';
+  show('Home');document.body.className='g'+(ONLY||1);
 }
 
 function renderQuiz(){
@@ -483,7 +484,7 @@ function renderRes(){
   $('rIns').innerHTML='<p><b>أقوى مهارة:</b> '+T.cats[best]+' ('+ar(Math.round(100*r(best)))+'٪)</p>'+(r(worst)<1?'<p><b>مهارة تحتاج تدريبًا:</b> '+T.cats[worst]+' ('+ar(Math.round(100*r(worst)))+'٪)</p>':'<p><b>كل المهارات كاملة.</b> أداء ممتاز!</p>');
   const wrong=T.qs.map((q,j)=>[q,j]).filter(([q,j])=>p.ans[j]!==q.a);
   $('rRev').innerHTML=wrong.length?wrong.map(([q,j])=>'<li><p>'+ar(j+1)+'. '+ar(q.t)+'</p>'+(q.f?'<div class="rf">'+q.f+'</div>':'')+'<div class="pr"><span>إجابتك: '+q.o[p.ans[j]]+'</span><span style="color:var(--ok);font-weight:700">الصحيح: '+q.o[q.a]+'</span></div></li>').join(''):'<li class="allok">لا توجد أخطاء، كل الإجابات صحيحة!</li>';
-  $('other').textContent='جرّب اختبار '+TESTS[st.g===1?4:1].name;
+  if($('other'))$('other').textContent='جرّب اختبار '+TESTS[st.g===1?4:1].name;
   show('Res');
 }
 function render(){
@@ -505,8 +506,8 @@ function speak(){
   }catch(e){toast('القراءة الصوتية غير متاحة هنا')}
 }
 
-$('deco1').innerHTML=[s('circle','R',{z:84}),s('square','B',{z:84,r:-8}),s('tri','G',{z:84}),s('heart','R',{z:84,r:8}),s('star','O',{z:84})].join('');
-$('deco4').innerHTML=mat([s('circle','R'),s('square','B'),s('tri','G'),s('tri','G'),s('circle','R'),s('square','B'),s('square','B'),s('tri','G'),null]);
+if($('deco1'))$('deco1').innerHTML=[s('circle','R',{z:84}),s('square','B',{z:84,r:-8}),s('tri','G',{z:84}),s('heart','R',{z:84,r:8}),s('star','O',{z:84})].join('');
+if($('deco4'))$('deco4').innerHTML=mat([s('circle','R'),s('square','B'),s('tri','G'),s('tri','G'),s('circle','R'),s('square','B'),s('square','B'),s('tri','G'),null]);
 
 document.addEventListener('click',e=>{
   const b=e.target.closest('button');if(!b)return;
