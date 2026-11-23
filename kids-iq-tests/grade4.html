@@ -147,7 +147,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--cor);outline-of
 #toast{position:fixed;inset-inline:16px;bottom:16px;margin-inline:auto;max-width:420px;background:var(--band-ink);color:#fff;padding:12px 18px;border-radius:14px;text-align:center;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s}
 #toast.on{opacity:1}
 @media(max-width:700px){.cols,.note .wrap,.rgrid{grid-template-columns:minmax(0,1fr)}.rtop .wrap{grid-template-columns:minmax(0,1fr)}}
-@media(max-width:520px){.cell{min-width:54px;min-height:54px;font-size:23px}.cell .shp{width:42px;height:42px}.cell.w{font-size:18px}.opt{min-height:74px;padding-inline:34px 8px}.otx{font-size:19px}.to{font-size:22px}.eqs>div,.maps>div{font-size:23px}.bar{grid-template-columns:minmax(0,7em) minmax(0,1fr) auto}}
+@media(max-width:520px){.cell{min-width:54px;min-height:54px;font-size:23px}.cell>.shp:not(.tall):not(.big){width:42px;height:42px}.cell>.shp.big{width:58px;height:58px}.cell>.shp.tall{width:28px;height:76px}.cell.w{font-size:18px}.opt{min-height:74px;padding-inline:34px 8px}.otx{font-size:19px}.to{font-size:22px}.eqs>div,.maps>div{font-size:23px}.bar{grid-template-columns:minmax(0,7em) minmax(0,1fr) auto}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
