@@ -460,7 +460,7 @@ function next(){
   if(p.i<n-1){p.i++;renderQuiz()}else{if(!p.t1)p.t1=Date.now();st.v='res';render()}
 }
 
-const STAR=on=>'<svg viewBox="0 0 100 100"><polygon points="'+starPts+'" fill="'+(on?'#fff':'rgba(255,255,255,.35)')+'" stroke="#1b2340" stroke-width="5" stroke-linejoin="round"/></svg>';
+const STAR=on=>'<svg viewBox="0 0 100 100"><polygon points="'+starPts+'" fill="'+(on?'#1b2340':'rgba(255,255,255,.3)')+'" stroke="#1b2340" stroke-width="5" stroke-linejoin="round"/></svg>';
 function stats(){
   const T=TESTS[st.g],p=st.p[st.g],by={};
   Object.keys(T.cats).forEach(k=>by[k]={n:0,ok:0});
